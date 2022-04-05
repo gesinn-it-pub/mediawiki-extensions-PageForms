@@ -17,10 +17,12 @@ class PFHooksTest extends MediaWikiIntegrationTestCase {
 	public function testRunThroughOnly() {
 		PFHooks::registerExtension();
 		PFHooks::initialize();
-		PFHooks::registerModules( new ResourceLoader() );
+		$resourceLoader = new ResourceLoader();
+		PFHooks::registerModules( $resourceLoader );
 		$list = [];
 		PFHooks::registerNamespaces( $list );
-		PFHooks::registerFunctions( new Parser() );
+		$parser = new Parser();
+		PFHooks::registerFunctions( $parser );
 		$this->assertTrue( true );
 	}
 }
