@@ -12,3 +12,5 @@ extensions/
 
 .eslintcache
 .phpunit.result.cache
+.nyc_output
+coverage

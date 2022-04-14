@@ -1,12 +1,21 @@
 {
 	"private": true,
 	"scripts": {
-		"test": "grunt test"
+		"test": "npm run grunt-test && npm run node-qunit",
+		"test-coverage": "npm run grunt-test && npm run node-qunit-coverage",
+		"grunt-test": "grunt test",
+		"node-qunit": "qunit tests/node-qunit",
+		"node-qunit-coverage": "nyc --reporter=html --reporter=clover --all --include='libs/**' npm run node-qunit"
 	},
 	"devDependencies": {
 		"eslint-config-wikimedia": "0.20.0",
 		"grunt": "1.4.0",
 		"grunt-banana-checker": "0.9.0",
-		"grunt-eslint": "23.0.0"
-	}
+		"grunt-eslint": "23.0.0",
+		"jsdom": "^19.0.0",
+		"nyc": "^15.1.0",
+		"qunit": "^2.18.1",
+		"sinon": "^13.0.2"
+	},
+	"dependencies": {}
 }
