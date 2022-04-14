@@ -25,13 +25,14 @@ class PFRadioButtonInputTest extends MediaWikiIntegrationTestCase {
 
 	private function radioButtonFormat(
 		$name, $value, $label = null, $checked = null, $class = null,
-		$append = null, $disabled = null
+		$append = null, $disabled = null, $originalValue = null
 	) {
 		return "\t" . sprintf(
 			'<label class="radioButtonItem%s">'
-			. '<input id="input_\d+" tabindex="\d+"%s%s%s type="radio" value="%s" '
+			. '<input id="input_\d+" tabindex="\d+" data-original-value="%s"%s%s%s type="radio" value="%s" '
 			. 'name="TestTemplate123\[%s\]"/>&nbsp;%s</label>',
 			( $class !== null ? " $class" : '' ),
+			( $originalValue !== null ? $originalValue : '\d' ),
 			( $append !== null ? " $append" : '' ),
 			( $disabled !== null ? ' disabled=""' : '' ),
 			( $checked !== null ? ' checked=""' : '' ),
@@ -89,8 +90,8 @@ class PFRadioButtonInputTest extends MediaWikiIntegrationTestCase {
 				. 'class="radioButtonSpan">' . "\n"
 
 				. $this->radioButtonFormat( $label, '', 'None', 'checked' )
-				. $this->radioButtonFormat( $label, 'Yes' )
-				. $this->radioButtonFormat( $label, 'No' )
+				. $this->radioButtonFormat( $label, 'Yes')
+				. $this->radioButtonFormat( $label, 'No')
 
 				. "</span>"
 			] ];
@@ -353,6 +354,23 @@ class PFRadioButtonInputTest extends MediaWikiIntegrationTestCase {
 
 					. $this->radioButtonFormat( $label, 'Yes' )
 					. $this->radioButtonFormat( $label, 'No', null, 'checked' )
+
+					. "</span>"
+				] ];
+
+		// data set #16 - original value data attribute is set
+		$provider[] = [ [
+			'args' => [
+				'No', $label, true, false, [
+					'possible_values' => [ 'eins'=> 'one', 'zwei' => 'deux', 'drei' => 'drei' ],
+				] ] ], [
+					'expected_html' => '<span id="span_\d+" '
+					. 'class="radioButtonSpan mandatoryFieldSpan">'
+					. "\n"
+
+					. $this->radioButtonFormat( $label, 'one', null, null, null, null, null, 'eins' )
+					. $this->radioButtonFormat( $label, 'deux', 'deux', null, null, null,null,'zwei' )
+					. $this->radioButtonFormat( $label, 'drei', 'drei', null, null, null,null, 'drei' )
 
 					. "</span>"
 				] ];
