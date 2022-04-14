@@ -53,34 +53,35 @@ class PFRadioButtonInput extends PFEnumInput {
 			$itemClass .= ' ' . $other_args['class'];
 		}
 
-		foreach ( $possible_values as $possible_value ) {
+		foreach ( $possible_values as $originalValue => $value ) {
 			$wgPageFormsTabIndex++;
 			$wgPageFormsFieldNum++;
 			$input_id = "input_$wgPageFormsFieldNum";
 
 			$radiobutton_attrs = [
-				'value' => $possible_value,
+				'value' => $value,
 				'id' => $input_id,
 				'tabindex' => $wgPageFormsTabIndex,
+				'data-original-value' => $originalValue
 			];
 			if ( array_key_exists( 'origName', $other_args ) ) {
 				$radiobutton_attrs['origname'] = $other_args['origName'];
 			}
-			$isChecked = ( $cur_value == $possible_value );
+			$isChecked = ( $cur_value == $value );
 			if ( $is_disabled ) {
 				$radiobutton_attrs['disabled'] = true;
 			}
-			if ( $possible_value === '' ) {
+			if ( $value === '' ) {
 				// blank/"None" value
 				$label = wfMessage( 'pf_formedit_none' )->text();
 			} elseif (
 				array_key_exists( 'value_labels', $other_args ) &&
 				is_array( $other_args['value_labels'] ) &&
-				array_key_exists( $possible_value, $other_args['value_labels'] )
+				array_key_exists( $value, $other_args['value_labels'] )
 			) {
-				$label = htmlspecialchars( $other_args['value_labels'][$possible_value] );
+				$label = htmlspecialchars( $other_args['value_labels'][$value] );
 			} else {
-				$label = $possible_value;
+				$label = $value;
 			}
 
 			$itemAttrs = [ 'class' => $itemClass ];

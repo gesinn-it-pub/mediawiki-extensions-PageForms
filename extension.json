@@ -521,6 +521,9 @@
 		},
 		"ext.pageforms.templatedisplay": {
 			"styles": "skins/PF_templateDisplay.css"
+		},
+		"ext.pageforms.originalValueLookup": {
+			"scripts": "libs/originalValueLookup.js"
 		}
 	},
 	"ResourceFileModulePaths": {
