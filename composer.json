@@ -43,15 +43,22 @@
 	},
 	"scripts": {
 		"test": [
-			"parallel-lint . --exclude vendor --exclude node_modules",
-			"minus-x check .",
-			"@phpcs"
+			"@analyze",
+			"@phpunit"
 		],
-		"fix": [
-			"minus-x fix .",
-			"phpcbf .",
-			"phpcbf"
+		"test-coverage": [
+			"@analyze",
+			"@phpunit-coverage"
 		],
-		"phpcs": "phpcs -p -s ."
+		"analyze": [
+			"@lint"
+		],
+		"lint": "parallel-lint . --exclude vendor --exclude node_modules",
+		"phpcs": "phpcs -p -s includes tests/phpunit",
+		"phpcs-fix": "phpcbf src tests/phpunit",
+		"phpunit": "php ../../tests/phpunit/phpunit.php -c phpunit.xml.dist --testdox",
+		"phpunit-coverage": "php ../../tests/phpunit/phpunit.php -c phpunit.xml.dist --testdox --coverage-text --coverage-html coverage/php --coverage-clover coverage/php/coverage.xml",
+		"minus-x": "minus-x check .",
+		"minus-x-fix": "minus-x fix ."
 	}
 }

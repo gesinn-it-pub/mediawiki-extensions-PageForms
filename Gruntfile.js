@@ -21,7 +21,8 @@ module.exports = function ( grunt ) {
 				'!libs/jsuites.js',
 				'!libs/jspreadsheet.js',
 				'!libs/select2.js',
-				'!libs/Sortable.js'
+				'!libs/Sortable.js',
+				'!coverage/**'
 			]
 		},
 		banana: {
