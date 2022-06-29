@@ -480,7 +480,7 @@ class PFHooks {
 		MediaWiki\Revision\RevisionRecord $revisionRecord, MediaWiki\Storage\EditResult $editResult
 	) {
 		// Bots don't need this cookie
-		if ( $_REQUEST['bot'] === 'true' ) {
+		if ( key_exists( 'bot' , $_REQUEST) && $_REQUEST['bot'] === 'true' ) {
 			return true;
 		}
 		// Have this take effect only if the save came from a form -
