@@ -479,6 +479,10 @@ class PFHooks {
 	public static function setPostEditCookie( WikiPage $wikiPage, MediaWiki\User\UserIdentity $user, string $summary, int $flags,
 		MediaWiki\Revision\RevisionRecord $revisionRecord, MediaWiki\Storage\EditResult $editResult
 	) {
+		// Bots don't need this cookie
+		if ( $_REQUEST['bot'] === 'true' ) {
+			return true;
+		}
 		// Have this take effect only if the save came from a form -
 		// we need to use a global variable to determine that.
 		global $wgPageFormsFormPrinter;
