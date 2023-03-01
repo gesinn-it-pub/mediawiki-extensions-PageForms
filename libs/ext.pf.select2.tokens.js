@@ -229,7 +229,7 @@
 				var htmlElements = inputData.$selection[0].children[0].children;
 				term = htmlElements[htmlElements.length - 1].children[0].value;
 			}
-			return pf.select2.base.prototype.textHighlight( result.id, term );
+			return pf.select2.base.prototype.textHighlight( result.text, term );
 		};
 		opts.language.searching = function() {
 			return mw.msg( "pf-autocomplete-searching" );
@@ -404,6 +404,7 @@
 						} else {
 							item.text = item.title;
 						}
+						// item.title is used as title attribute for the option later -- which is ok
 					});
 					return {results: data.pfautocomplete};
 				} else {
