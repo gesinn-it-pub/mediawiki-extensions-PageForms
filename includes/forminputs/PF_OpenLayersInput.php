@@ -231,7 +231,7 @@ class PFOpenLayersInput extends PFFormInput {
 		}
 
 		foreach ( $secondsSymbols as $secondsSymbol ) {
-			$pattern = '/(\d+)' . $secondsSymbol . '/u';
+			$pattern = '/([\d.]+)' . $secondsSymbol . '/u';
 			if ( preg_match( $pattern, $coordinateStr, $matches ) ) {
 				$numSeconds = floatval( $matches[1] );
 				break;
