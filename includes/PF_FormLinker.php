@@ -16,7 +16,7 @@ class PFFormLinker {
 
 	private static $formPerNamespace = [];
 
-	static function getDefaultForm( $title ) {
+	public static function getDefaultForm( $title ) {
 		// The title passed in can be null in at least one
 		// situation: if the "namespace page" is being checked, and
 		// the project namespace alias contains any non-ASCII
@@ -60,7 +60,7 @@ class PFFormLinker {
 		// Allow outside code to set/change the preloaded text.
 		Hooks::run( 'PageForms::EditFormPreloadText', [ &$preloadContent, $title, $formTitle ] );
 
-		list( $formText, $pageText, $formPageTitle, $generatedPageName ) =
+		[ $formText, $pageText, $formPageTitle, $generatedPageName ] =
 			$wgPageFormsFormPrinter->formHTML(
 				$formDefinition, false, false, null, $preloadContent,
 				'Some very long page name that will hopefully never get created ABCDEF123',
@@ -106,7 +106,7 @@ class PFFormLinker {
 	 * @param bool &$ret
 	 * @return true
 	 */
-	static function setBrokenLink( LinkRenderer $linkRenderer, $target, $isKnown, &$text, &$attribs, &$ret ) {
+	public static function setBrokenLink( LinkRenderer $linkRenderer, $target, $isKnown, &$text, &$attribs, &$ret ) {
 		global $wgContentNamespaces;
 		global $wgPageFormsLinkAllRedLinksToForms;
 
@@ -154,7 +154,7 @@ class PFFormLinker {
 	 * @param Title $title
 	 * @return array
 	 */
-	static function getDefaultFormsForPage( $title ) {
+	public static function getDefaultFormsForPage( $title ) {
 		// See if the page itself has a default form (or forms), and
 		// return it/them if so.
 		// (Disregard category pages for this check.)

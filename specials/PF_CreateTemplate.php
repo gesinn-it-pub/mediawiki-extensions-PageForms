@@ -88,7 +88,7 @@ class PFCreateTemplate extends SpecialPage {
 		] );
 	}
 
-	function printFieldTypeDropdown( $id ) {
+	public function printFieldTypeDropdown( $id ) {
 		global $wgCargoFieldTypes;
 
 		$selectBody = '';
@@ -225,7 +225,7 @@ END;
 		return $text;
 	}
 
-	static function printTemplateStyleButton( $formatStr, $formatMsg, $htmlFieldName, $curSelection ) {
+	public static function printTemplateStyleButton( $formatStr, $formatMsg, $htmlFieldName, $curSelection ) {
 		$attrs = [ 'id' => $formatStr ];
 		if ( $formatStr === $curSelection ) {
 			$attrs['selected'] = true;
@@ -238,7 +238,7 @@ END;
 		return $radioButton . Html::element( 'label', [ 'for' => $formatStr ], wfMessage( $formatMsg )->escaped() ) . "&nbsp;&nbsp;&nbsp;\n";
 	}
 
-	static function printTemplateStyleInput( $htmlFieldName, $curSelection = null ) {
+	public static function printTemplateStyleInput( $htmlFieldName, $curSelection = null ) {
 		if ( !$curSelection ) {
 			$curSelection = 'standard';
 		}
@@ -251,7 +251,7 @@ END;
 		return $text;
 	}
 
-	function printCreateTemplateForm( $query ) {
+	public function printCreateTemplateForm( $query ) {
 		$out = $this->getOutput();
 		$req = $this->getRequest();
 
@@ -289,7 +289,7 @@ END;
 				if ( count( $var_elements ) != 2 ) {
 					continue;
 				}
-				list( $field_field, $id ) = $var_elements;
+				[ $field_field, $id ] = $var_elements;
 				if ( $field_field == 'name' && $id != 'starter' ) {
 					$field = PFTemplateField::create(
 						$val,

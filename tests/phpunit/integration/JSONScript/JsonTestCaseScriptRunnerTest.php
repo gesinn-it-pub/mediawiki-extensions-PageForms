@@ -29,7 +29,7 @@ class JsonTestCaseScriptRunnerTest extends JSONScriptTestCaseRunnerTest {
 
 	protected function getDependencyDefinitions() {
 		return [
-			'DisplayTitle' => function( $val, &$reason ) {
+			'DisplayTitle' => static function ( $val, &$reason ) {
 				if ( !ExtensionRegistry::getInstance()->isLoaded( 'DisplayTitle' ) ) {
 					$reason = "Dependency: DisplayTitle as requirement for the test is not available!";
 					return false;

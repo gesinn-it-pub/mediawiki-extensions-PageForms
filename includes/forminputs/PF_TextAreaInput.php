@@ -10,6 +10,11 @@
  */
 class PFTextAreaInput extends PFFormInput {
 
+	/**
+	 * This property stores mEditor value
+	 *
+	 * @var string
+	 */
 	protected $mEditor = null;
 
 	public static function getName(): string {

@@ -11,12 +11,42 @@
  * @ingroup PFSpecialPages
  */
 class PFUploadForm extends HTMLForm {
-	protected $mWatch;
-	protected $mForReUpload;
-	protected $mSessionKey;
-	protected $mHideIgnoreWarning;
-	protected $mDestWarningAck;
 
+	/**
+	 * This property stores mWatch value
+	 *
+	 * @var string
+	 */
+	protected $mWatch;
+	/**
+	 * This property stores mForReUpload value
+	 *
+	 * @var string
+	 */
+	protected $mForReUpload;
+	/**
+	 * This property stores mSessionKey value
+	 *
+	 * @var string
+	 */
+	protected $mSessionKey;
+	/**
+	 * This property stores mHideIgnoreWarning value
+	 *
+	 * @var string
+	 */
+	protected $mHideIgnoreWarning;
+	/**
+	 * This property stores mDestWarningAck value
+	 *
+	 * @var string
+	 */
+	protected $mDestWarningAck;
+	/**
+	 * This property stores mSourceIds value
+	 *
+	 * @var string
+	 */
 	protected $mSourceIds;
 
 	private $mTextTop;
@@ -27,8 +57,8 @@ class PFUploadForm extends HTMLForm {
 
 	public function __construct( $options = [], IContextSource $context = null ) {
 		if ( $context instanceof IContextSource ) {
-            $this->setContext( $context );
-        }
+			$this->setContext( $context );
+		}
 		$this->mWatch = !empty( $options['watch'] );
 		$this->mForReUpload = !empty( $options['forreupload'] );
 		$this->mSessionKey = isset( $options['sessionkey'] )
@@ -307,14 +337,15 @@ class PFUploadForm extends HTMLForm {
 		// disable output - we'll print out the page manually,
 		// taking the body created by the form, plus the necessary
 		// Javascript files, and turning them into an HTML page
-		global $wgTitle, $wgLanguageCode, $wgScriptPath,
+		global $wgLanguageCode, $wgScriptPath,
 			$wgPageFormsScriptPath,
 			$wgXhtmlDefaultNamespace, $wgXhtmlNamespaces;
+		$titleGlobal = RequestContext::getMain()->getTitle();
 
 		$out = $this->getOutput();
 
 		$out->disable();
-		$wgTitle = SpecialPage::getTitleFor( 'Upload' );
+		$titleGlobal = SpecialPage::getTitleFor( 'Upload' );
 
 		$text = <<<END
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -349,7 +380,7 @@ END;
 	 *
 	 * @return bool false
 	 */
-	function trySubmit() {
+	public function trySubmit() {
 		return false;
 	}
 

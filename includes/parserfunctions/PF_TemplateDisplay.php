@@ -157,7 +157,7 @@ class PFTemplateDisplay {
 		$mappingFormat = new CargoMapsFormat( $parser->getOutput() );
 
 		try {
-			list( $lat, $lon ) = CargoUtils::parseCoordinatesString( $coordinatesStr );
+			[ $lat, $lon ] = CargoUtils::parseCoordinatesString( $coordinatesStr );
 		} catch ( MWException $e ) {
 			return '';
 		}

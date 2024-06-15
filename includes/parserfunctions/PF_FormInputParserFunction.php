@@ -107,7 +107,7 @@ class PFFormInputParserFunction {
 			} elseif ( $paramName == 'no autofocus' ) {
 				$inAutofocus = false;
 			} else {
-				PFParserFunctionHelpers::handleFreeParameter($paramName, $value, $inQueryArr, $hasReturnTo);
+				PFParserFunctionHelpers::handleFreeParameter( $paramName, $value, $inQueryArr, $hasReturnTo );
 			}
 		}
 

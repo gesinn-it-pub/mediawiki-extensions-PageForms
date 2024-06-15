@@ -16,23 +16,23 @@ class PFTemplates extends QueryPage {
 		parent::__construct( $name );
 	}
 
-	function isExpensive() {
+	public function isExpensive() {
 		return false;
 	}
 
-	function isSyndicated() {
+	public function isSyndicated() {
 		return false;
 	}
 
-	function getPageHeader() {
+	public function getPageHeader() {
 		$header = Html::element( 'p', null, $this->msg( 'pf_templates_docu' )->text() );
 		return $header;
 	}
 
-	function getPageFooter() {
+	public function getPageFooter() {
 	}
 
-	function getQueryInfo() {
+	public function getQueryInfo() {
 		return [
 			'tables' => [ 'page' ],
 			'fields' => [ 'page_title AS title', 'page_title AS value' ],
@@ -40,11 +40,11 @@ class PFTemplates extends QueryPage {
 		];
 	}
 
-	function sortDescending() {
+	public function sortDescending() {
 		return false;
 	}
 
-	function getCategoryDefinedByTemplate( $templateTitle ) {
+	public function getCategoryDefinedByTemplate( $templateTitle ) {
 		$templateText = PFUtils::getPageText( $templateTitle );
 		$cat_ns_name = PFUtils::getContLang()->getNsText( NS_CATEGORY );
 		// Ignore categories inside <noinclude> tags.
@@ -65,7 +65,7 @@ class PFTemplates extends QueryPage {
 		return "";
 	}
 
-	function formatResult( $skin, $result ) {
+	public function formatResult( $skin, $result ) {
 		$title = Title::makeTitle( NS_TEMPLATE, $result->value );
 		$linkRenderer = $this->getLinkRenderer();
 		$text = $linkRenderer->makeKnownLink( $title, htmlspecialchars( $title->getText() ) );

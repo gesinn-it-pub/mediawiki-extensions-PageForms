@@ -231,7 +231,7 @@ class PFPageSchemas extends PSExtensionHandler {
 		return $xmlPerPageSection;
 	}
 
-	static function createFormInputXMLFromForm( $valueFromForm ) {
+	public static function createFormInputXMLFromForm( $valueFromForm ) {
 		$xml = '';
 		if ( $valueFromForm !== '' ) {
 			// replace the comma substitution character that has no chance of

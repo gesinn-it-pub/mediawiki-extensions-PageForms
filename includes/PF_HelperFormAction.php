@@ -49,7 +49,7 @@ class PFHelperFormAction extends Action {
 	 * @param array &$links
 	 * @return bool
 	 */
-	static function displayTab( $obj, &$links ) {
+	public static function displayTab( $obj, &$links ) {
 		$title = $obj->getTitle();
 		$user = $obj->getUser();
 

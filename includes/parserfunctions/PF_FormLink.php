@@ -107,7 +107,7 @@ class PFFormLink {
 			} elseif ( $param_name == null && $value == 'create page' ) {
 				$inCreatePage = true;
 			} elseif ( $param_name !== null ) {
-				PFParserFunctionHelpers::handleFreeParameter($param_name, $value, $inQueryArr, $hasReturnTo);
+				PFParserFunctionHelpers::handleFreeParameter( $param_name, $value, $inQueryArr, $hasReturnTo );
 			}
 		}
 
@@ -177,7 +177,7 @@ class PFFormLink {
 			// has to be turned into hidden inputs.
 			switch ( $inLinkType ) {
 				case 'button':
-				case 'post button' :
+				case 'post button':
 					$query_components = explode( '&', http_build_query( $inQueryArr, '', '&' ) );
 
 					foreach ( $query_components as $query_component ) {

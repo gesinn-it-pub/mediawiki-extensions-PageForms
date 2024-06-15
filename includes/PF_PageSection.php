@@ -17,14 +17,14 @@ class PFPageSection {
 	private $mHideIfEmpty = false;
 	private $mSectionArgs = [];
 
-	static function create( $section_name ) {
+	public static function create( $section_name ) {
 		$ps = new PFPageSection();
 		$ps->mSectionName = $section_name;
 
 		return $ps;
 	}
 
-	static function newFromFormTag( $tag_components, User $user ) {
+	public static function newFromFormTag( $tag_components, User $user ) {
 		$ps = new PFPageSection();
 		$ps->mSectionName = trim( $tag_components[1] );
 
@@ -48,18 +48,18 @@ class PFPageSection {
 
 			if ( count( $sub_components ) === 2 ) {
 				switch ( $sub_components[0] ) {
-				case 'level':
-					$ps->mSectionLevel = $sub_components[1];
-					break;
-				case 'rows':
-				case 'cols':
-				case 'class':
-				case 'editor':
-				case 'placeholder':
-					$ps->mSectionArgs[$sub_components[0]] = $sub_components[1];
-					break;
-				default:
-					// Ignore unknown
+					case 'level':
+						$ps->mSectionLevel = $sub_components[1];
+						break;
+					case 'rows':
+					case 'cols':
+					case 'class':
+					case 'editor':
+					case 'placeholder':
+						$ps->mSectionArgs[$sub_components[0]] = $sub_components[1];
+						break;
+					default:
+						// Ignore unknown
 				}
 			}
 		}
@@ -114,7 +114,7 @@ class PFPageSection {
 		return $this->mSectionArgs;
 	}
 
-	function createMarkup() {
+	public function createMarkup() {
 		$section_name = $this->mSectionName;
 		$section_level = $this->mSectionLevel;
 		// Set default section level to 2

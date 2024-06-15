@@ -46,7 +46,7 @@ class PFTemplate {
 	public function loadTemplateParams() {
 		$embeddedTemplate = null;
 		$templateTitle = Title::makeTitleSafe( NS_TEMPLATE, $this->mTemplateName );
-		if ( $templateTitle ===  NULL ) {
+		if ( $templateTitle === null ) {
 			return;
 		}
 		$services = MediaWikiServices::getInstance();
@@ -76,7 +76,7 @@ class PFTemplate {
 	 * @todo - fix so that this function only gets called once per
 	 * template; right now it seems to get called once per field. (!)
 	 */
-	function loadTemplateFields() {
+	public function loadTemplateFields() {
 		$templateTitle = Title::makeTitleSafe( NS_TEMPLATE, $this->mTemplateName );
 		if ( !isset( $templateTitle ) ) {
 			return;
@@ -105,7 +105,7 @@ class PFTemplate {
 	 * Get the fields of the template, along with the semantic property
 	 * attached to each one (if any), by parsing the text of the template.
 	 */
-	function loadTemplateFieldsSMWAndOther() {
+	public function loadTemplateFieldsSMWAndOther() {
 		$templateFields = [];
 		$fieldNamesArray = [];
 
@@ -215,7 +215,7 @@ class PFTemplate {
 	 * @param string $propertyName
 	 * @param bool $isList
 	 */
-	function loadPropertySettingInTemplate( $fieldName, $propertyName, $isList ) {
+	public function loadPropertySettingInTemplate( $fieldName, $propertyName, $isList ) {
 		$templateField = PFTemplateField::create(
 			$fieldName, PFUtils::getContLang()->ucfirst( $fieldName ), $propertyName,
 			$isList
@@ -224,12 +224,12 @@ class PFTemplate {
 		$this->mTemplateFields[$cur_pos] = $templateField;
 	}
 
-	function loadTemplateFieldsCargo( $templateTitle ) {
+	public function loadTemplateFieldsCargo( $templateTitle ) {
 		$cargoFieldsOfTemplateParams = [];
 
 		// First, get the table name, and fields, declared for this
 		// template, if any.
-		list( $tableName, $tableSchema ) = $this->getCargoTableAndSchema( $templateTitle );
+		[ $tableName, $tableSchema ] = $this->getCargoTableAndSchema( $templateTitle );
 		if ( $tableName == null ) {
 			$fieldDescriptions = [];
 		} else {
@@ -344,7 +344,7 @@ class PFTemplate {
 		}
 	}
 
-	function getCargoTableAndSchema( $templateTitle ) {
+	public function getCargoTableAndSchema( $templateTitle ) {
 		$templatePageID = $templateTitle->getArticleID();
 		$tableSchemaString = CargoUtils::getPageProp( $templatePageID, 'CargoFields' );
 		// See if there even is DB storage for this template - if not,
@@ -352,7 +352,7 @@ class PFTemplate {
 		if ( $tableSchemaString === null ) {
 			// There's no declared table - but see if there's an
 			// attached table.
-			list( $tableName, $isDeclared ) = CargoUtils::getTableNameForTemplate( $templateTitle );
+			[ $tableName, $isDeclared ] = CargoUtils::getTableNameForTemplate( $templateTitle );
 			if ( $tableName == null ) {
 				return [ null, null ];
 			}
@@ -700,7 +700,7 @@ END;
 		return $text;
 	}
 
-	function createTextForField( $field ) {
+	public function createTextForField( $field ) {
 		$text = '';
 		$fieldStart = $this->mFieldStart;
 		Hooks::run( 'PageForms::TemplateFieldStart', [ $field, &$fieldStart ] );
@@ -720,7 +720,7 @@ END;
 		return $text;
 	}
 
-	function printCategoryTag() {
+	public function printCategoryTag() {
 		if ( ( $this->mCategoryName === '' || $this->mCategoryName === null ) ) {
 			return '';
 		}

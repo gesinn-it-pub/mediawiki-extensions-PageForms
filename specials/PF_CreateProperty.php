@@ -13,16 +13,16 @@
  */
 class PFCreateProperty extends SpecialPage {
 
-	function __construct() {
+	public function __construct() {
 		parent::__construct( 'CreateProperty' );
 	}
 
-	function execute( $query ) {
+	public function execute( $query ) {
 		$this->setHeaders();
 		$this->printCreatePropertyForm( $query );
 	}
 
-	static function createPropertyText( $property_type, $allowed_values_str ) {
+	public static function createPropertyText( $property_type, $allowed_values_str ) {
 		$prop_labels = PFUtils::getSMWContLang()->getPropertyLabels();
 		$type_tag = "[[{$prop_labels['_TYPE']}::$property_type]]";
 		$text = wfMessage( 'pf_property_isproperty', $type_tag )->inContentLanguage()->text();
@@ -47,7 +47,7 @@ class PFCreateProperty extends SpecialPage {
 		return $text;
 	}
 
-	function printCreatePropertyForm( $query ) {
+	public function printCreatePropertyForm( $query ) {
 		$out = $this->getOutput();
 		$req = $this->getRequest();
 

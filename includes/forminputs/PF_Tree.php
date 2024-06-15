@@ -9,15 +9,40 @@
  * @author Amr El-Absy
  */
 class PFTree {
+	/**
+	 * This property stores title value
+	 *
+	 * @var string
+	 */
 	public $title;
+	/**
+	 * This property stores an array of children
+	 *
+	 * @var array
+	 */
 	public $children;
+	/**
+	 * This property stores depth value
+	 *
+	 * @var int
+	 */
 	public $depth;
+	/**
+	 * This property stores top category value
+	 *
+	 * @var string
+	 */
 	public $top_category;
 	/**
 	 * @var array[]
 	 * @phan-var list<array>
 	 */
 	public $tree_array;
+	/**
+	 * This property stores title value
+	 *
+	 * @var array
+	 */
 	public $current_values;
 
 	public function __construct( $depth, $cur_values ) {

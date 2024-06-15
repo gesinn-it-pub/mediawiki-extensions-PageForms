@@ -13,15 +13,30 @@
  */
 class PFFormEdit extends UnlistedSpecialPage {
 
+	/**
+	 * This property stores mTarget value
+	 *
+	 * @var string
+	 */
 	public $mTarget;
+	/**
+	 * This property stores mForm value
+	 *
+	 * @var string
+	 */
 	public $mForm;
+	/**
+	 * This property stores mError value
+	 *
+	 * @var string
+	 */
 	public $mError;
 
-	function __construct() {
+	public function __construct() {
 		parent::__construct( 'FormEdit' );
 	}
 
-	function execute( $query ) {
+	public function execute( $query ) {
 		$this->setHeaders();
 		$this->getOutput()->enableOOUI();
 
@@ -44,7 +59,7 @@ class PFFormEdit extends UnlistedSpecialPage {
 		$this->printForm( $this->mForm, $this->mTarget, $alt_forms );
 	}
 
-	function printAltFormsList( $alt_forms, $target_name ) {
+	public function printAltFormsList( $alt_forms, $target_name ) {
 		$text = "";
 		$fe = PFUtils::getSpecialPage( 'FormEdit' );
 		$fe_url = $fe->getPageTitle()->getFullURL();
@@ -62,7 +77,7 @@ class PFFormEdit extends UnlistedSpecialPage {
 		return $text;
 	}
 
-	function printForm( $form_name, $targetName, $alt_forms = [] ) {
+	public function printForm( $form_name, $targetName, $alt_forms = [] ) {
 		global $wgPageFormsTargetName;
 
 		// For use by the VEForAll extension.

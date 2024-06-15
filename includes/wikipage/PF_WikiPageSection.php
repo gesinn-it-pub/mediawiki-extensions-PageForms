@@ -14,7 +14,7 @@ class PFWikiPageSection {
 	private $mText;
 	private $mHideIfEmpty;
 
-	function __construct( $sectionName, $headerLevel, $sectionText, $sectionOptions ) {
+	public function __construct( $sectionName, $headerLevel, $sectionText, $sectionOptions ) {
 		$this->mHeader      = $sectionName;
 		$this->mHeaderLevel = $headerLevel;
 		$this->mText        = $sectionText;
@@ -24,19 +24,19 @@ class PFWikiPageSection {
 	/**
 	 * @return bool
 	 */
-	function isHideIfEmpty() {
+	public function isHideIfEmpty() {
 		return $this->mHideIfEmpty;
 	}
 
-	function getHeader() {
+	public function getHeader() {
 		return $this->mHeader;
 	}
 
-	function getHeaderLevel() {
+	public function getHeaderLevel() {
 		return $this->mHeaderLevel;
 	}
 
-	function getText() {
+	public function getText() {
 		return $this->mText;
 	}
 }

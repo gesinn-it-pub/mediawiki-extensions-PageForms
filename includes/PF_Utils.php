@@ -66,11 +66,11 @@ class PFUtils {
 	 * Copied from CargoUtils::makeLink().
 	 */
 	public static function makeLink( $linkRenderer, $title, $msg = null, $attrs = [], $params = [] ) {
-		global $wgTitle;
+		$titleGlobal = RequestContext::getMain()->getTitle();
 
 		if ( $title === null ) {
 			return null;
-		} elseif ( $wgTitle !== null && $title->equals( $wgTitle ) ) {
+		} elseif ( $titleGlobal !== null && $title->equals( $titleGlobal ) ) {
 			// Display bolded text instead of a link.
 			return Linker::makeSelfLinkObj( $title, $msg );
 		} else {
@@ -354,7 +354,7 @@ END;
 	 * @param string $string
 	 * @return string[]
 	 */
-	static function smartSplitFormTag( $string ) {
+	public static function smartSplitFormTag( $string ) {
 		if ( $string == '' ) {
 			return [];
 		}

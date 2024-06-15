@@ -145,11 +145,11 @@ class PFTreeInput extends PFFormInput {
 
 		if ( !empty( $params['search-input'] ) ) {
 			$text = Html::rawElement( 'div', [],
-				Html::element( 'input', [					
+				Html::element( 'input', [
 					'id' => $input_name . 'treeinput_searchinput',
 					'class' => 'PFTreeSearchInput',
 				], null ) )
-			.  $text ;
+			. " " . $text;
 		}
 
 		$wrapperClass = 'pfTreeInputWrapper';
@@ -215,7 +215,7 @@ class PFTreeInput extends PFFormInput {
 	 * @param string $title
 	 * @return null|Title
 	 */
-	static function makeTitle( $title ) {
+	public static function makeTitle( $title ) {
 		$title = trim( $title );
 
 		if ( strval( $title ) === '' ) {

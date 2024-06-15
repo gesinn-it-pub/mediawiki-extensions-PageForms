@@ -20,17 +20,52 @@
  */
 abstract class PFFormInput {
 
+	/**
+	 * This property stores mInputNumber value
+	 *
+	 * @var string
+	 */
 	protected $mInputNumber;
+	/**
+	 * This property stores mCurrentValue value
+	 *
+	 * @var string
+	 */
 	protected $mCurrentValue;
+	/**
+	 * This property stores mInputName value
+	 *
+	 * @var string
+	 */
 	protected $mInputName;
 	/**
 	 * @deprecated, check for array_key_exists('mandatory', $this->mOtherArgs) instead
 	 */
 	protected $mIsMandatory;
+	/**
+	 * This property stores mIsDisabled value
+	 *
+	 * @var bool
+	 */
 	protected $mIsDisabled;
+	/**
+	 * This property stores mOtherArgs value
+	 *
+	 * @var array
+	 */
 	protected $mOtherArgs;
 
+	/**
+	 * This property stores mJsInitFunctionData value
+	 *
+	 * @var array
+	 */
 	protected $mJsInitFunctionData = [];
+	/**
+	 * This property stores mJsValidationFunctionData value
+	 *
+	 * @var array
+	 */
 	protected $mJsValidationFunctionData = [];
 
 	/**

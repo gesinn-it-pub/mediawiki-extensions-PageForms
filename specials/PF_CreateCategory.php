@@ -13,11 +13,11 @@
  */
 class PFCreateCategory extends SpecialPage {
 
-	function __construct() {
+	public function __construct() {
 		parent::__construct( 'CreateCategory' );
 	}
 
-	static function createCategoryText( $default_form, $category_name, $parent_category ) {
+	public static function createCategoryText( $default_form, $category_name, $parent_category ) {
 		if ( $default_form === '' ) {
 			$text = wfMessage( 'pf_category_desc', $category_name )->inContentLanguage()->text();
 		} else {
@@ -31,7 +31,7 @@ class PFCreateCategory extends SpecialPage {
 		return $text;
 	}
 
-	function execute( $query ) {
+	public function execute( $query ) {
 		$this->setHeaders();
 
 		$out = $this->getOutput();

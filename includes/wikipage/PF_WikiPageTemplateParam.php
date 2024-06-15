@@ -13,20 +13,20 @@ class PFWikiPageTemplateParam {
 	private $mName;
 	private $mValue;
 
-	function __construct( $name, $value ) {
+	public function __construct( $name, $value ) {
 		$this->mName = $name;
 		$this->mValue = $value;
 	}
 
-	function getName() {
+	public function getName() {
 		return $this->mName;
 	}
 
-	function getValue() {
+	public function getValue() {
 		return $this->mValue;
 	}
 
-	function setValue( $value ) {
+	public function setValue( $value ) {
 		$this->mValue = $value;
 	}
 }

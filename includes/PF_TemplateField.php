@@ -39,7 +39,7 @@ class PFTemplateField {
 	private $mRegex = null;
 	private $mHoldsTemplate = null;
 
-	static function create( $name, $label, $semanticProperty = null, $isList = null, $delimiter = null, $display = null ) {
+	public static function create( $name, $label, $semanticProperty = null, $isList = null, $delimiter = null, $display = null ) {
 		$f = new PFTemplateField();
 		$f->mFieldName = trim( str_replace( '\\', '', $name ) );
 		if ( $label !== null ) {
@@ -101,7 +101,7 @@ class PFTemplateField {
 		return $text;
 	}
 
-	static function newFromParams( $fieldName, $fieldParams ) {
+	public static function newFromParams( $fieldName, $fieldParams ) {
 		$f = new PFTemplateField();
 		$f->mFieldName = $fieldName;
 		foreach ( $fieldParams as $key => $value ) {
@@ -130,7 +130,7 @@ class PFTemplateField {
 		return $f;
 	}
 
-	function setTypeAndPossibleValues() {
+	public function setTypeAndPossibleValues() {
 		if ( !defined( 'SMW_NS_PROPERTY' ) ) {
 			return;
 		}
@@ -182,7 +182,7 @@ class PFTemplateField {
 	 * a template is parsed during the creation of a form.
 	 * @param string $semantic_property
 	 */
-	function setSemanticProperty( $semantic_property ) {
+	public function setSemanticProperty( $semantic_property ) {
 		$this->mSemanticProperty = str_replace( '\\', '', $semantic_property );
 		$this->mPossibleValues = [];
 		// set field type and possible values, if any
@@ -196,7 +196,7 @@ class PFTemplateField {
 	 * @param string $fieldName
 	 * @param CargoFieldDescription|null $fieldDescription
 	 */
-	function setCargoFieldData( $tableName, $fieldName, $fieldDescription = null ) {
+	public function setCargoFieldData( $tableName, $fieldName, $fieldDescription = null ) {
 		$this->mCargoTable = $tableName;
 		$this->mCargoField = $fieldName;
 
@@ -241,27 +241,27 @@ class PFTemplateField {
 		$this->mRegex = $fieldDescription->mRegex;
 	}
 
-	function getFieldName() {
+	public function getFieldName() {
 		return $this->mFieldName;
 	}
 
-	function getValueLabels() {
+	public function getValueLabels() {
 		return $this->mValueLabels;
 	}
 
-	function getLabel() {
+	public function getLabel() {
 		return $this->mLabel;
 	}
 
-	function getSemanticProperty() {
+	public function getSemanticProperty() {
 		return $this->mSemanticProperty;
 	}
 
-	function getPropertyType() {
+	public function getPropertyType() {
 		return $this->mPropertyType;
 	}
 
-	function getExpectedCargoField() {
+	public function getExpectedCargoField() {
 		if ( $this->mCargoField != '' ) {
 			return $this->mCargoField;
 		} else {
@@ -269,73 +269,73 @@ class PFTemplateField {
 		}
 	}
 
-	function getFullCargoField() {
+	public function getFullCargoField() {
 		if ( $this->mCargoTable == '' || $this->mCargoField == '' ) {
 			return null;
 		}
 		return $this->mCargoTable . '|' . $this->mCargoField;
 	}
 
-	function getFieldType() {
+	public function getFieldType() {
 		return $this->mFieldType;
 	}
 
-	function getRealFieldType() {
+	public function getRealFieldType() {
 		return $this->mRealFieldType;
 	}
 
-	function getPossibleValues() {
+	public function getPossibleValues() {
 		if ( $this->mPossibleValues == null ) {
 			return [];
 		}
 		return $this->mPossibleValues;
 	}
 
-	function getHierarchyStructure() {
+	public function getHierarchyStructure() {
 		return $this->mHierarchyStructure;
 	}
 
-	function isList() {
+	public function isList() {
 		return $this->mIsList;
 	}
 
-	function getDelimiter() {
+	public function getDelimiter() {
 		return $this->mDelimiter;
 	}
 
-	function getDisplay() {
+	public function getDisplay() {
 		return $this->mDisplay;
 	}
 
-	function getNamespace() {
+	public function getNamespace() {
 		return $this->mNamespace;
 	}
 
-	function isMandatory() {
+	public function isMandatory() {
 		return $this->mIsMandatory;
 	}
 
-	function isUnique() {
+	public function isUnique() {
 		return $this->mIsUnique;
 	}
 
-	function getRegex() {
+	public function getRegex() {
 		return $this->mRegex;
 	}
 
-	function getHoldsTemplate() {
+	public function getHoldsTemplate() {
 		return $this->mHoldsTemplate;
 	}
 
-	function setLabel( $label ) {
+	public function setLabel( $label ) {
 		$this->mLabel = $label;
 	}
 
-	function setNamespace( $namespace ) {
+	public function setNamespace( $namespace ) {
 		$this->mNamespace = $namespace;
 	}
 
-	function setFieldType( $fieldType ) {
+	public function setFieldType( $fieldType ) {
 		$this->mFieldType = $fieldType;
 
 		if ( $fieldType == 'File' ) {
@@ -343,15 +343,15 @@ class PFTemplateField {
 		}
 	}
 
-	function setPossibleValues( $possibleValues ) {
+	public function setPossibleValues( $possibleValues ) {
 		$this->mPossibleValues = $possibleValues;
 	}
 
-	function setHierarchyStructure( $hierarchyStructure ) {
+	public function setHierarchyStructure( $hierarchyStructure ) {
 		$this->mHierarchyStructure = $hierarchyStructure;
 	}
 
-	function createText( $cargoInUse ) {
+	public function createText( $cargoInUse ) {
 		$fieldProperty = $this->mSemanticProperty;
 		// If this field is meant to contain a list, and the field has
 		// an associated SMW property, add on an 'arraymap' function,

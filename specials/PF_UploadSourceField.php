@@ -19,7 +19,7 @@
  */
 class PFUploadSourceField extends HTMLTextField {
 
-	function getLabelHtml( $cellAttributes = [] ) {
+	public function getLabelHtml( $cellAttributes = [] ) {
 		$id = "wpSourceType{$this->mParams['upload-type']}";
 		$label = Html::rawElement( 'label', [ 'for' => $id ], $this->mLabel );
 
@@ -40,7 +40,7 @@ class PFUploadSourceField extends HTMLTextField {
 		return Html::rawElement( 'td', [ 'class' => 'mw-label' ], $label );
 	}
 
-	function getSize() {
+	public function getSize() {
 		return isset( $this->mParams['size'] )
 			? $this->mParams['size']
 			: 60;

@@ -19,16 +19,26 @@ use MediaWiki\Revision\RevisionRecord;
  */
 class PFMultiPageEdit extends QueryPage {
 
+	/**
+	 * This property stores mTemplate value
+	 *
+	 * @var string
+	 */
 	public $mTemplate;
+	/**
+	 * This property stores mForm value
+	 *
+	 * @var string
+	 */
 	public $mForm;
 	private $mTemplateInForm = [];
 	private $mTemplatesUsed = [];
 
-	function __construct() {
+	public function __construct() {
 		parent::__construct( 'MultiPageEdit', 'multipageedit' );
 	}
 
-	function execute( $query ) {
+	public function execute( $query ) {
 		$this->setHeaders();
 
 		// Check permissions.
@@ -165,7 +175,7 @@ class PFMultiPageEdit extends QueryPage {
 	 * all the forms available in the wiki and store them along with the
 	 * form names in an array using helper functions.
 	 */
-	function setTemplateList() {
+	public function setTemplateList() {
 		$dbr = wfGetDB( DB_REPLICA );
 		$res = $dbr->select(
 			[ 'page' ],
@@ -180,23 +190,23 @@ class PFMultiPageEdit extends QueryPage {
 		}
 	}
 
-	function isExpensive() {
+	public function isExpensive() {
 		return false;
 	}
 
-	function isSyndicated() {
+	public function isSyndicated() {
 		return false;
 	}
 
-	function getPageHeader() {
+	public function getPageHeader() {
 		$header = Html::element( 'p', null, $this->msg( 'pf_multipageedit_docu' )->text() );
 		return $header;
 	}
 
-	function getPageFooter() {
+	public function getPageFooter() {
 	}
 
-	function getQueryInfo() {
+	public function getQueryInfo() {
 		return [
 			'tables' => [ 'page' ],
 			'fields' => [ 'page_title AS title', 'page_title AS value' ],
@@ -207,11 +217,11 @@ class PFMultiPageEdit extends QueryPage {
 		];
 	}
 
-	function sortDescending() {
+	public function sortDescending() {
 		return false;
 	}
 
-	function findTemplatesForForm( $formName ) {
+	public function findTemplatesForForm( $formName ) {
 		$formTitle = Title::makeTitle( PF_NS_FORM, $formName );
 		$formContent = PFUtils::getPageText( $formTitle, RevisionRecord::RAW );
 		$start_position = 0;
@@ -245,7 +255,7 @@ class PFMultiPageEdit extends QueryPage {
 		return $this->mTemplateInForm[$templateName];
 	}
 
-	function formatResult( $skin, $result ) {
+	public function formatResult( $skin, $result ) {
 		$escapedTemplateName = $result->value;
 		$escapedFormName = $this->getFormForTemplate( $escapedTemplateName );
 		if ( $escapedFormName == null ) {

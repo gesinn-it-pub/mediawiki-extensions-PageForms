@@ -16,23 +16,23 @@ class PFForms extends QueryPage {
 		parent::__construct( $name );
 	}
 
-	function isExpensive() {
+	public function isExpensive() {
 		return false;
 	}
 
-	function isSyndicated() {
+	public function isSyndicated() {
 		return false;
 	}
 
-	function getPageHeader() {
+	public function getPageHeader() {
 		$header = Html::element( 'p', null, $this->msg( 'pf_forms_docu' )->text() );
 		return $header;
 	}
 
-	function getPageFooter() {
+	public function getPageFooter() {
 	}
 
-	function getQueryInfo() {
+	public function getQueryInfo() {
 		return [
 			'tables' => [ 'page' ],
 			'fields' => [ 'page_title AS title', 'page_title AS value' ],
@@ -40,11 +40,11 @@ class PFForms extends QueryPage {
 		];
 	}
 
-	function sortDescending() {
+	public function sortDescending() {
 		return false;
 	}
 
-	function formatResult( $skin, $result ) {
+	public function formatResult( $skin, $result ) {
 		$pageName = $result->value;
 
 		if ( PFUtils::ignoreFormName( $pageName ) ) {

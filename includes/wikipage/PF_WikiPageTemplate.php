@@ -13,16 +13,16 @@ class PFWikiPageTemplate {
 	private $mParams = [];
 	private $mAddUnhandledParams;
 
-	function __construct( $name, $addUnhandledParams ) {
+	public function __construct( $name, $addUnhandledParams ) {
 		$this->mName = $name;
 		$this->mAddUnhandledParams = $addUnhandledParams;
 	}
 
-	function addParam( $paramName, $value ) {
+	public function addParam( $paramName, $value ) {
 		$this->mParams[] = new PFWikiPageTemplateParam( $paramName, $value );
 	}
 
-	function addUnhandledParam( $paramName, $value ) {
+	public function addUnhandledParam( $paramName, $value ) {
 		// See if there's already a value for this parameter, and
 		// if it's blank, replace it.
 		// This only happens if values are coming in from both the
@@ -40,7 +40,7 @@ class PFWikiPageTemplate {
 		$this->addParam( $paramName, $value );
 	}
 
-	function addUnhandledParams() {
+	public function addUnhandledParams() {
 		global $wgRequest;
 
 		if ( !$this->mAddUnhandledParams ) {
@@ -58,11 +58,11 @@ class PFWikiPageTemplate {
 		}
 	}
 
-	function getName() {
+	public function getName() {
 		return $this->mName;
 	}
 
-	function getParams() {
+	public function getParams() {
 		return $this->mParams;
 	}
 }

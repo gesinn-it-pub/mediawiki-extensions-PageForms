@@ -47,7 +47,7 @@ class PFFormEditAction extends Action {
 	 * @param array &$links
 	 * @return true
 	 */
-	static function displayTab( $obj, &$links ) {
+	public static function displayTab( $obj, &$links ) {
 		$title = $obj->getTitle();
 		$user = $obj->getUser();
 
@@ -149,7 +149,7 @@ class PFFormEditAction extends Action {
 		return true;
 	}
 
-	static function displayFormChooser( $output, $title ) {
+	public static function displayFormChooser( $output, $title ) {
 		$output->addModules( 'ext.pageforms.main' );
 
 		$targetName = $title->getPrefixedText();
@@ -227,7 +227,7 @@ class PFFormEditAction extends Action {
 	 * individual pages are (hopefully) pretty rare.
 	 * @return int[]
 	 */
-	static function getNumPagesPerForm() {
+	public static function getNumPagesPerForm() {
 		$dbr = wfGetDB( DB_REPLICA );
 		$res = $dbr->select(
 			[ 'category', 'page', 'page_props' ],
@@ -258,7 +258,7 @@ class PFFormEditAction extends Action {
 		return $pagesPerForm;
 	}
 
-	static function printLinksToFormArray( $formNames, $targetName, $fe ) {
+	public static function printLinksToFormArray( $formNames, $targetName, $fe ) {
 		$text = '';
 		foreach ( $formNames as $i => $formName ) {
 			if ( $i > 0 ) {
@@ -283,7 +283,7 @@ class PFFormEditAction extends Action {
 	 * @param Article $article
 	 * @return true
 	 */
-	static function displayForm( $action, $article ) {
+	public static function displayForm( $action, $article ) {
 		$output = $action->getOutput();
 		$title = $article->getTitle();
 		$form_names = PFFormLinker::getDefaultFormsForPage( $title );

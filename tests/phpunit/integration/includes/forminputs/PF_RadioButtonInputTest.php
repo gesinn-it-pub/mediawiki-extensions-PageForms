@@ -90,8 +90,8 @@ class PFRadioButtonInputTest extends MediaWikiIntegrationTestCase {
 				. 'class="radioButtonSpan">' . "\n"
 
 				. $this->radioButtonFormat( $label, '', 'None', 'checked' )
-				. $this->radioButtonFormat( $label, 'Yes')
-				. $this->radioButtonFormat( $label, 'No')
+				. $this->radioButtonFormat( $label, 'Yes' )
+				. $this->radioButtonFormat( $label, 'No' )
 
 				. "</span>"
 			] ];
@@ -362,15 +362,15 @@ class PFRadioButtonInputTest extends MediaWikiIntegrationTestCase {
 		$provider[] = [ [
 			'args' => [
 				'No', $label, true, false, [
-					'possible_values' => [ 'eins'=> 'one', 'zwei' => 'deux', 'drei' => 'drei' ],
+					'possible_values' => [ 'eins' => 'one', 'zwei' => 'deux', 'drei' => 'drei' ],
 				] ] ], [
 					'expected_html' => '<span id="span_\d+" '
 					. 'class="radioButtonSpan mandatoryFieldSpan">'
 					. "\n"
 
 					. $this->radioButtonFormat( $label, 'one', null, null, null, null, null, 'eins' )
-					. $this->radioButtonFormat( $label, 'deux', 'deux', null, null, null,null,'zwei' )
-					. $this->radioButtonFormat( $label, 'drei', 'drei', null, null, null,null, 'drei' )
+					. $this->radioButtonFormat( $label, 'deux', 'deux', null, null, null, null, 'zwei' )
+					. $this->radioButtonFormat( $label, 'drei', 'drei', null, null, null, null, 'drei' )
 
 					. "</span>"
 				] ];
@@ -390,7 +390,7 @@ class PFRadioButtonInputTest extends MediaWikiIntegrationTestCase {
 			if ( isset( $setup['form_definition'] ) ) {
 				// We have to specify a template name
 				$form_definition = "{{{for template|TestTemplate123}}}\n{$setup['form_definition']}\n{{{end template}}}\n{{{standard input|save}}}";
-				list( $form_text, $page_text, $form_page_title, $generated_page_name )
+				[ $form_text, $page_text, $form_page_title, $generated_page_name ]
 					= $wgPageFormsFormPrinter->formHTML(
 						$form_definition, true, false, null, null,
 						'TestStringForFormPageTitle', null,
@@ -675,11 +675,11 @@ class PFRadioButtonInputTest extends MediaWikiIntegrationTestCase {
 
 		$mockTitle->expects( $this->any() )
 			->method( 'getDBkey' )
-			->will( $this->returnValue( 'Sometitle' ) );
+			->willReturn( 'Sometitle' );
 
 		$mockTitle->expects( $this->any() )
 			->method( 'getNamespace' )
-			->will( $this->returnValue( PF_NS_FORM ) );
+			->willReturn( PF_NS_FORM );
 
 		return $mockTitle;
 	}

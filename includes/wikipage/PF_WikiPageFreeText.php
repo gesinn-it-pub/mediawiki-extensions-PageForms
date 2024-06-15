@@ -12,11 +12,11 @@
 class PFWikiPageFreeText {
 	private $mText;
 
-	function setText( $text ) {
+	public function setText( $text ) {
 		$this->mText = $text;
 	}
 
-	function getText() {
+	public function getText() {
 		return $this->mText;
 	}
 }

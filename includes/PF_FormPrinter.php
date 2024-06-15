@@ -17,10 +17,35 @@ use MediaWiki\MediaWikiServices;
 
 class PFFormPrinter {
 
+	/**
+	 * This property stores mSemanticTypeHooks values
+	 *
+	 * @var array
+	 */
 	public $mSemanticTypeHooks;
+	/**
+	 * This property stores mCargoTypeHooks values
+	 *
+	 * @var array
+	 */
 	public $mCargoTypeHooks;
+	/**
+	 * This property stores mInputTypeHooks values
+	 *
+	 * @var array
+	 */
 	public $mInputTypeHooks;
+	/**
+	 * This property stores standardInputsIncluded values
+	 *
+	 * @var array
+	 */
 	public $standardInputsIncluded;
+	/**
+	 * This property stores mPageTitle values
+	 *
+	 * @var array
+	 */
 	public $mPageTitle;
 
 	private $mInputTypeClasses;
@@ -266,7 +291,7 @@ class PFFormPrinter {
 	 * @param OutputPage $out
 	 * @return true
 	 */
-	function showDeletionLog( $out ) {
+	public function showDeletionLog( $out ) {
 		LogEventsList::showLogExtract( $out, 'delete', $this->mPageTitle->getPrefixedText(),
 			'', [ 'lim' => 10,
 				'conds' => [ "log_action != 'revision'" ],
@@ -288,7 +313,7 @@ class PFFormPrinter {
 	 * @param string $subject
 	 * @return string
 	 */
-	function strReplaceFirst( $search, $replace, $subject ) {
+	public function strReplaceFirst( $search, $replace, $subject ) {
 		$firstChar = strpos( $subject, $search );
 		if ( $firstChar !== false ) {
 			$beforeStr = substr( $subject, 0, $firstChar );
@@ -299,17 +324,17 @@ class PFFormPrinter {
 		}
 	}
 
-	static function placeholderFormat( $templateName, $fieldName ) {
+	public static function placeholderFormat( $templateName, $fieldName ) {
 		$templateName = str_replace( '_', ' ', $templateName );
 		$fieldName = str_replace( '_', ' ', $fieldName );
 		return $templateName . '___' . $fieldName;
 	}
 
-	static function makePlaceholderInFormHTML( $str ) {
+	public static function makePlaceholderInFormHTML( $str ) {
 		return '@insert"HTML_' . $str . '@';
 	}
 
-	function multipleTemplateStartHTML( $tif ) {
+	public function multipleTemplateStartHTML( $tif ) {
 		// If placeholder is set, it means we want to insert a
 		// multiple template form's HTML into the main form's HTML.
 		// So, the HTML will be stored in $text.
@@ -335,7 +360,7 @@ class PFFormPrinter {
 	 * @param string $mainText
 	 * @return string
 	 */
-	function multipleTemplateInstanceTableHTML( $form_is_disabled, $mainText ) {
+	public function multipleTemplateInstanceTableHTML( $form_is_disabled, $mainText ) {
 		if ( $form_is_disabled ) {
 			$addAboveButton = $removeButton = '';
 		} else {
@@ -365,7 +390,7 @@ END;
 	 * @param string &$section
 	 * @return string
 	 */
-	function multipleTemplateInstanceHTML( $template_in_form, $form_is_disabled, &$section ) {
+	public function multipleTemplateInstanceHTML( $template_in_form, $form_is_disabled, &$section ) {
 		global $wgPageFormsCalendarHTML;
 
 		$wgPageFormsCalendarHTML[$template_in_form->getTemplateName()] = str_replace( '[num]', "[cf]", $section );
@@ -408,7 +433,7 @@ END;
 	 * @param string $section
 	 * @return string
 	 */
-	function multipleTemplateEndHTML( $template_in_form, $form_is_disabled, $section ) {
+	public function multipleTemplateEndHTML( $template_in_form, $form_is_disabled, $section ) {
 		global $wgPageFormsTabIndex;
 
 		$text = "\t\t" . Html::rawElement( 'div',
@@ -440,7 +465,7 @@ END;
 		return $text;
 	}
 
-	function tableHTML( $tif, $instanceNum ) {
+	public function tableHTML( $tif, $instanceNum ) {
 		global $wgPageFormsFieldNum;
 
 		$allGridValues = $tif->getGridValues();
@@ -518,7 +543,7 @@ END;
 		return $html;
 	}
 
-	function getSpreadsheetAutocompleteAttributes( $formFieldArgs ) {
+	public function getSpreadsheetAutocompleteAttributes( $formFieldArgs ) {
 		if ( array_key_exists( 'values from category', $formFieldArgs ) ) {
 			return [ 'category', $formFieldArgs[ 'values from category' ] ];
 		} elseif ( array_key_exists( 'cargo table', $formFieldArgs ) ) {
@@ -538,7 +563,7 @@ END;
 		}
 	}
 
-	function spreadsheetHTML( $tif ) {
+	public function spreadsheetHTML( $tif ) {
 		global $wgOut, $wgPageFormsGridValues, $wgPageFormsGridParams;
 		global $wgPageFormsScriptPath;
 
@@ -556,7 +581,7 @@ END;
 
 			$inputType = $formField->getInputType();
 			$gridParamValues = [ 'name' => $templateField->getFieldName() ];
-			list( $autocompletedatatype, $autocompletesettings ) = $this->getSpreadsheetAutocompleteAttributes( $formFieldArgs );
+			[ $autocompletedatatype, $autocompletesettings ] = $this->getSpreadsheetAutocompleteAttributes( $formFieldArgs );
 			if ( $formField->getLabel() !== null ) {
 				$gridParamValues['label'] = $formField->getLabel();
 			}
@@ -634,7 +659,7 @@ END;
 	 * @param string $includeTimezone
 	 * @return string
 	 */
-	function getStringForCurrentTime( $includeTime, $includeTimezone ) {
+	public function getStringForCurrentTime( $includeTime, $includeTimezone ) {
 		global $wgLocaltimezone, $wgAmericanDates, $wgPageForms24HourTime;
 
 		if ( isset( $wgLocaltimezone ) ) {
@@ -689,7 +714,7 @@ END;
 	 * @param string $delimiter
 	 * @return string
 	 */
-	static function getStringFromPassedInArray( $value, $delimiter ) {
+	public static function getStringFromPassedInArray( $value, $delimiter ) {
 		// If it's just a regular list, concatenate it.
 		// This is needed due to some strange behavior
 		// in PF, where, if a preload page is passed in
@@ -784,7 +809,7 @@ END;
 		return '';
 	}
 
-	static function displayLoadingImage() {
+	public static function displayLoadingImage() {
 		global $wgPageFormsScriptPath;
 
 		$text = '<div id="loadingMask"></div>';
@@ -821,7 +846,7 @@ END;
 	 * @throws FatalError
 	 * @throws MWException
 	 */
-	function formHTML(
+	public function formHTML(
 		$form_def,
 		$form_submitted,
 		$source_is_page,
@@ -860,8 +885,8 @@ END;
 		if ( $is_embedded || $is_query ) {
 			// If this is an embedded form (probably a 'RunQuery') or we're in Special:RunQuery,
 			// just use the name of the actual page we're on.
-			global $wgTitle;
-			$this->mPageTitle = $wgTitle;
+			$titleGlobal = RequestContext::getMain()->getTitle();
+			$this->mPageTitle = $titleGlobal;
 		} elseif ( $page_name === '' || $page_name === null ) {
 			$this->mPageTitle = Title::newFromText(
 				$wgRequest->getVal( 'namespace' ) . ":Page Forms permissions test" );
@@ -1294,12 +1319,12 @@ END;
 								$mappingCargoTable = $form_field->getFieldArg( 'mapping cargo table' );
 								$mappingCargoField = $form_field->getFieldArg( 'mapping cargo field' );
 								$mappingCargoValueField = $form_field->getFieldArg( 'mapping cargo value field' );
-								if ( !$form_submitted && $cur_value !== null && $cur_value !== '' ) {
-									$cur_value = $this->getCargoBasedMapping( $cur_value, $mappingCargoTable, $mappingCargoField, $mappingCargoValueField, $form_field );
-								}
-								if ( $form_submitted && $cur_value_in_template !== null && $cur_value_in_template !== '' ) {
-									$cur_value_in_template = $this->getCargoBasedMapping( $cur_value_in_template, $mappingCargoTable, $mappingCargoValueField, $mappingCargoField, $form_field );
-								}
+							if ( !$form_submitted && $cur_value !== null && $cur_value !== '' ) {
+								$cur_value = $this->getCargoBasedMapping( $cur_value, $mappingCargoTable, $mappingCargoField, $mappingCargoValueField, $form_field );
+							}
+							if ( $form_submitted && $cur_value_in_template !== null && $cur_value_in_template !== '' ) {
+								$cur_value_in_template = $this->getCargoBasedMapping( $cur_value_in_template, $mappingCargoTable, $mappingCargoValueField, $mappingCargoField, $form_field );
+							}
 						}
 						if ( $cur_value !== '' &&
 							( $form_field->hasFieldArg( 'mapping template' ) ||
@@ -1455,15 +1480,15 @@ END;
 							}
 						} elseif ( count( $sub_components ) == 2 ) {
 							switch ( $sub_components[0] ) {
-							case 'label':
-								$input_label = $parser->recursiveTagParse( $sub_components[1] );
-								break;
-							case 'class':
-								$attr['class'] = $sub_components[1];
-								break;
-							case 'style':
-								$attr['style'] = Sanitizer::checkCSS( $sub_components[1] );
-								break;
+								case 'label':
+									$input_label = $parser->recursiveTagParse( $sub_components[1] );
+									break;
+								case 'class':
+									$attr['class'] = $sub_components[1];
+									break;
+								case 'style':
+									$attr['style'] = Sanitizer::checkCSS( $sub_components[1] );
+									break;
 							}
 						}
 					}
@@ -1970,7 +1995,7 @@ END;
 	 * @param string $cur_value
 	 * @return string
 	 */
-	function formFieldHTML( $form_field, $cur_value ) {
+	public function formFieldHTML( $form_field, $cur_value ) {
 		global $wgPageFormsFieldNum;
 
 		// Also get the actual field, with all the semantic information

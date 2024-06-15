@@ -14,7 +14,7 @@ class PFWikiPage {
 	private $mEmbeddedTemplateCalls = [];
 	private $mFreeTextOnlyInclude = false;
 
-	function addTemplate( $templateInForm ) {
+	public function addTemplate( $templateInForm ) {
 		$templateName = $templateInForm->getTemplateName();
 		$this->mComponents[] = new PFWikiPageTemplate( $templateName, !$templateInForm->allowsMultiple() );
 		if ( $templateInForm->getInstanceNum() == 0 ) {
@@ -26,7 +26,7 @@ class PFWikiPage {
 		}
 	}
 
-	function addTemplateParam( $templateName, $instanceNum, $paramName, $value ) {
+	public function addTemplateParam( $templateName, $instanceNum, $paramName, $value ) {
 		$curInstance = 0;
 		foreach ( $this->mComponents as $i => $component ) {
 			if ( $component instanceof PFWikiPageTemplate && $component->getName() == $templateName ) {
@@ -38,7 +38,7 @@ class PFWikiPage {
 		}
 	}
 
-	function getEmbeddedTemplateForParam( $templateName, $paramName ) {
+	public function getEmbeddedTemplateForParam( $templateName, $paramName ) {
 		foreach ( $this->mEmbeddedTemplateDefs as $etd ) {
 			if ( $etd[0] == $templateName && $etd[1] == $paramName ) {
 				return $etd[2];
@@ -47,15 +47,15 @@ class PFWikiPage {
 		return null;
 	}
 
-	function addSection( $sectionName, $headerLevel, $sectionText, $sectionOptions ) {
+	public function addSection( $sectionName, $headerLevel, $sectionText, $sectionOptions ) {
 		$this->mComponents[] = new PFWikiPageSection( $sectionName, $headerLevel, $sectionText, $sectionOptions );
 	}
 
-	function addFreeTextSection() {
+	public function addFreeTextSection() {
 		$this->mComponents[] = new PFWikiPageFreeText();
 	}
 
-	function setFreeText( $text ) {
+	public function setFreeText( $text ) {
 		foreach ( $this->mComponents as $i => $component ) {
 			if ( $component instanceof PFWikiPageFreeText ) {
 				$this->mComponents[$i]->setText( $text );
@@ -65,11 +65,11 @@ class PFWikiPage {
 		// Throw an exception here if no free text section found?
 	}
 
-	function makeFreeTextOnlyInclude() {
+	public function makeFreeTextOnlyInclude() {
 		$this->mFreeTextOnlyInclude = true;
 	}
 
-	function freeTextOnlyInclude() {
+	public function freeTextOnlyInclude() {
 		return $this->mFreeTextOnlyInclude;
 	}
 
@@ -93,7 +93,7 @@ class PFWikiPage {
 		}
 	}
 
-	function createTemplateCall( $template ) {
+	public function createTemplateCall( $template ) {
 		$lastNumericParam = 0;
 		$template->addUnhandledParams();
 
@@ -146,7 +146,7 @@ class PFWikiPage {
 		return $templateCall;
 	}
 
-	function createTemplateCallsForTemplateName( $templateName ) {
+	public function createTemplateCallsForTemplateName( $templateName ) {
 		$text = '';
 		foreach ( $this->mComponents as $component ) {
 			if ( $component instanceof PFWikiPageTemplate ) {
@@ -158,7 +158,7 @@ class PFWikiPage {
 		return $text;
 	}
 
-	function createPageText() {
+	public function createPageText() {
 		// First, go through and store the templates that are embedded,
 		// so that they can have special printing.
 		$this->findEmbeddedTemplates();

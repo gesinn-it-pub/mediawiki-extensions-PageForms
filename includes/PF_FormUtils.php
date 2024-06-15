@@ -23,7 +23,7 @@ class PFFormUtils {
 	 * @param PFTemplateInForm|null $template_in_form
 	 * @return string
 	 */
-	static function unhandledFieldsHTML( $template_in_form ) {
+	public static function unhandledFieldsHTML( $template_in_form ) {
 		// This shouldn't happen, but sometimes this value is null.
 		// @TODO - fix the code that calls this function so the
 		// value is never null.
@@ -43,7 +43,7 @@ class PFFormUtils {
 		return $text;
 	}
 
-	static function summaryInputHTML( $is_disabled, $label = null, $attr = [], $value = '' ) {
+	public static function summaryInputHTML( $is_disabled, $label = null, $attr = [], $value = '' ) {
 		global $wgPageFormsTabIndex;
 
 		if ( $label == null ) {
@@ -74,7 +74,7 @@ class PFFormUtils {
 		return $text;
 	}
 
-	static function minorEditInputHTML( $form_submitted, $is_disabled, $is_checked, $label = null, $attrs = [] ) {
+	public static function minorEditInputHTML( $form_submitted, $is_disabled, $is_checked, $label = null, $attrs = [] ) {
 		global $wgPageFormsTabIndex;
 
 		$wgPageFormsTabIndex++;
@@ -113,8 +113,9 @@ class PFFormUtils {
 		return $text;
 	}
 
-	static function watchInputHTML( $form_submitted, $is_disabled, $is_checked = false, $label = null, $attrs = [] ) {
-		global $wgPageFormsTabIndex, $wgTitle;
+	public static function watchInputHTML( $form_submitted, $is_disabled, $is_checked = false, $label = null, $attrs = [] ) {
+		global $wgPageFormsTabIndex;
+		$titleGlobal = RequestContext::getMain()->getTitle();
 
 		$wgPageFormsTabIndex++;
 		// figure out if the checkbox should be checked -
@@ -131,10 +132,10 @@ class PFFormUtils {
 					# Watch all edits
 					$is_checked = true;
 				} elseif ( $userOptionsLookup->getOption( $user, 'watchcreations' ) &&
-					!$wgTitle->exists() ) {
+					!$titleGlobal->exists() ) {
 					# Watch creations
 					$is_checked = true;
-				} elseif ( $watchlistManager->isWatched( $user, $wgTitle ) ) {
+				} elseif ( $watchlistManager->isWatched( $user, $titleGlobal ) ) {
 					# Already watched
 					$is_checked = true;
 				}
@@ -142,10 +143,10 @@ class PFFormUtils {
 				if ( $user->getOption( 'watchdefault' ) ) {
 					# Watch all edits
 					$is_checked = true;
-				} elseif ( $user->getOption( 'watchcreations' ) && !$wgTitle->exists() ) {
+				} elseif ( $user->getOption( 'watchcreations' ) && !$titleGlobal->exists() ) {
 					# Watch creations
 					$is_checked = true;
-				} elseif ( $user->isWatched( $wgTitle ) ) {
+				} elseif ( $user->isWatched( $titleGlobal ) ) {
 					# Already watched
 					$is_checked = true;
 				}
@@ -206,7 +207,7 @@ class PFFormUtils {
 		return $button;
 	}
 
-	static function saveButtonHTML( $is_disabled, $label = null, $attr = [] ) {
+	public static function saveButtonHTML( $is_disabled, $label = null, $attr = [] ) {
 		global $wgPageFormsTabIndex;
 
 		$wgPageFormsTabIndex++;
@@ -226,7 +227,7 @@ class PFFormUtils {
 		return self::buttonHTML( 'wpSave', $label, 'submit', $temp );
 	}
 
-	static function saveAndContinueButtonHTML( $is_disabled, $label = null, $attr = [] ) {
+	public static function saveAndContinueButtonHTML( $is_disabled, $label = null, $attr = [] ) {
 		global $wgPageFormsTabIndex;
 
 		$wgPageFormsTabIndex++;
@@ -252,7 +253,7 @@ class PFFormUtils {
 		return self::buttonHTML( 'wpSaveAndContinue', $label, 'button', $temp );
 	}
 
-	static function showPreviewButtonHTML( $is_disabled, $label = null, $attr = [] ) {
+	public static function showPreviewButtonHTML( $is_disabled, $label = null, $attr = [] ) {
 		global $wgPageFormsTabIndex;
 
 		$wgPageFormsTabIndex++;
@@ -271,7 +272,7 @@ class PFFormUtils {
 		return self::buttonHTML( 'wpPreview', $label, 'submit', $temp );
 	}
 
-	static function showChangesButtonHTML( $is_disabled, $label = null, $attr = [] ) {
+	public static function showChangesButtonHTML( $is_disabled, $label = null, $attr = [] ) {
 		global $wgPageFormsTabIndex;
 
 		$wgPageFormsTabIndex++;
@@ -290,16 +291,16 @@ class PFFormUtils {
 		return self::buttonHTML( 'wpDiff', $label, 'submit', $temp );
 	}
 
-	static function cancelLinkHTML( $is_disabled, $label = null, $attr = [] ) {
-		global $wgTitle;
+	public static function cancelLinkHTML( $is_disabled, $label = null, $attr = [] ) {
+		$titleGlobal = RequestContext::getMain()->getTitle();
 
 		if ( $label == null ) {
 			$label = wfMessage( 'cancel' )->parse();
 		}
-		if ( $wgTitle == null || $wgTitle->isSpecial( 'FormEdit' ) ) {
+		if ( $titleGlobal == null || $titleGlobal->isSpecial( 'FormEdit' ) ) {
 			$attr['classes'] = [ 'pfSendBack' ];
 		} else {
-			$attr['href'] = $wgTitle->getFullURL();
+			$attr['href'] = $titleGlobal->getFullURL();
 		}
 		$attr['framed'] = false;
 		$attr['label'] = $label;
@@ -307,7 +308,7 @@ class PFFormUtils {
 		return "\t\t" . new OOUI\ButtonWidget( $attr ) . "\n";
 	}
 
-	static function runQueryButtonHTML( $is_disabled = false, $label = null, $attr = [] ) {
+	public static function runQueryButtonHTML( $is_disabled = false, $label = null, $attr = [] ) {
 		// is_disabled is currently ignored
 		global $wgPageFormsTabIndex;
 
@@ -332,7 +333,7 @@ class PFFormUtils {
 	 * @param bool $is_disabled
 	 * @return string
 	 */
-	static function formBottom( $form_submitted, $is_disabled ) {
+	public static function formBottom( $form_submitted, $is_disabled ) {
 		$text = <<<END
 	<br />
 	<div class='editOptions'>
@@ -377,7 +378,7 @@ END;
 	 * @param string $preload
 	 * @return string
 	 */
-	static function getPreloadedText( $preload ) {
+	public static function getPreloadedText( $preload ) {
 		if ( $preload === '' ) {
 			return '';
 		}
@@ -411,11 +412,11 @@ END;
 	 * Used by 'RunQuery' page
 	 * @return string
 	 */
-	static function queryFormBottom() {
+	public static function queryFormBottom() {
 		return self::runQueryButtonHTML( false );
 	}
 
-	static function getMonthNames() {
+	public static function getMonthNames() {
 		return [
 			wfMessage( 'january' )->inContentLanguage()->text(),
 			wfMessage( 'february' )->inContentLanguage()->text(),
@@ -703,7 +704,7 @@ END;
 	 * @param int $header_level
 	 * @return string
 	 */
-	static function headerHTML( $header_name, $header_level = 2 ) {
+	public static function headerHTML( $header_name, $header_level = 2 ) {
 		global $wgPageFormsTabIndex;
 
 		$wgPageFormsTabIndex++;
@@ -728,7 +729,7 @@ END;
 	 * @param int|null $deleted_item_loc
 	 * @return int
 	 */
-	static function getChangedIndex( $i, $new_item_loc, $deleted_item_loc ) {
+	public static function getChangedIndex( $i, $new_item_loc, $deleted_item_loc ) {
 		$old_i = $i;
 		if ( $new_item_loc != null ) {
 			if ( $i > $new_item_loc ) {

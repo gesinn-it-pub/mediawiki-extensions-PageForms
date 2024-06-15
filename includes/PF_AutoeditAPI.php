@@ -57,14 +57,14 @@ class PFAutoeditAPI extends ApiBase {
 	 * @param string $options
 	 * @return array Options
 	 */
-	function addOptionsFromString( $options ) {
+	public function addOptionsFromString( $options ) {
 		return $this->parseDataFromQueryString( $this->mOptions, $options );
 	}
 
 	/**
 	 * @return array
 	 */
-	function getOptions() {
+	public function getOptions() {
 		return $this->mOptions;
 	}
 
@@ -76,14 +76,14 @@ class PFAutoeditAPI extends ApiBase {
 	 *
 	 * @return int|null
 	 */
-	function getAction() {
+	public function getAction() {
 		return $this->mAction;
 	}
 
 	/**
 	 * @param array $options
 	 */
-	function setOptions( $options ) {
+	public function setOptions( $options ) {
 		$this->mOptions = $options;
 	}
 
@@ -91,7 +91,7 @@ class PFAutoeditAPI extends ApiBase {
 	 * @param string $option
 	 * @param mixed $value
 	 */
-	function setOption( $option, $value ) {
+	public function setOption( $option, $value ) {
 		$this->mOptions[$option] = $value;
 	}
 
@@ -103,7 +103,7 @@ class PFAutoeditAPI extends ApiBase {
 	 *
 	 * @return int
 	 */
-	function getStatus() {
+	public function getStatus() {
 		return $this->mStatus;
 	}
 
@@ -116,7 +116,7 @@ class PFAutoeditAPI extends ApiBase {
 	 * The result data is stored in the ApiResult object available through
 	 * getResult().
 	 */
-	function execute() {
+	public function execute() {
 		$this->prepareAction();
 		$this->getOutput()->enableOOUI();
 
@@ -137,7 +137,7 @@ class PFAutoeditAPI extends ApiBase {
 		$this->setHeaders();
 	}
 
-	function prepareAction() {
+	public function prepareAction() {
 		// Get options from the request, but keep the explicitly set options.
 		$data = $this->getRequest()->getValues();
 		$this->mOptions = PFUtils::arrayMergeRecursiveDistinct( $data, $this->mOptions );
@@ -807,7 +807,7 @@ class PFAutoeditAPI extends ApiBase {
 	 * @param bool $hasPadding should the number should be padded with zeros instead of spaces?
 	 * @return string
 	 */
-	static function makeRandomNumber( $numDigits = 1, $hasPadding = false ) {
+	public static function makeRandomNumber( $numDigits = 1, $hasPadding = false ) {
 		$maxValue = pow( 10, $numDigits ) - 1;
 		if ( $maxValue > getrandmax() ) {
 			$maxValue = getrandmax();
@@ -930,7 +930,7 @@ class PFAutoeditAPI extends ApiBase {
 			}
 			// Call PFFormPrinter::formHTML() to get at the form
 			// HTML of the existing page.
-			list( $formHTML, $targetContent, $form_page_title, $generatedTargetNameFormula ) =
+			[ $formHTML, $targetContent, $form_page_title, $generatedTargetNameFormula ] =
 				$wgPageFormsFormPrinter->formHTML(
 					// Special handling for autoedit edits -
 					// otherwise, multi-instance templates
@@ -970,7 +970,7 @@ class PFAutoeditAPI extends ApiBase {
 			} else {
 				$wgRequest = new FauxRequest( $this->mOptions, true );
 			}
-			list( $formHTML, $targetContent, $generatedFormName, $generatedTargetNameFormula ) =
+			[ $formHTML, $targetContent, $generatedFormName, $generatedTargetNameFormula ] =
 				$wgPageFormsFormPrinter->formHTML(
 					$formContent, $isFormSubmitted, $pageExists,
 					$formArticleId, $preloadContent, $targetName, $targetNameFormula,
@@ -1272,7 +1272,7 @@ class PFAutoeditAPI extends ApiBase {
 	 *
 	 * @return array or false
 	 */
-	function getAllowedParams() {
+	public function getAllowedParams() {
 		return [
 			'form' => null,
 			'target' => null,
@@ -1288,7 +1288,7 @@ class PFAutoeditAPI extends ApiBase {
 	 *
 	 * @return array or false
 	 */
-	function getParamDescription() {
+	public function getParamDescription() {
 		return [
 			'form' => 'The form to use.',
 			'target' => 'The target page.',
@@ -1302,7 +1302,7 @@ class PFAutoeditAPI extends ApiBase {
 	 *
 	 * @return string|string[]
 	 */
-	function getDescription() {
+	public function getDescription() {
 		return <<<END
 This module is used to remotely create or edit pages using Page Forms.
 
@@ -1333,7 +1333,7 @@ END;
 	 *
 	 * @return string
 	 */
-	function getVersion() {
+	public function getVersion() {
 		global $wgPageFormsIP;
 		$gitSha1 = SpecialVersion::getGitHeadSha1( $wgPageFormsIP );
 		return __CLASS__ . '-' . PF_VERSION . ( $gitSha1 !== false ) ? ' (' . substr( $gitSha1, 0, 7 ) . ')' : '';

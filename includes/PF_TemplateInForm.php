@@ -50,7 +50,7 @@ class PFTemplateInForm {
 	private $mAllInstancesPrinted = false;
 	private $mGridValues = [];
 
-	static function create( $name, $label = null, $allowMultiple = null, $maxAllowed = null, $formFields = null ) {
+	public static function create( $name, $label = null, $allowMultiple = null, $maxAllowed = null, $formFields = null ) {
 		$tif = new PFTemplateInForm();
 		$tif->mTemplateName = str_replace( '_', ' ', $name );
 		if ( $formFields === null ) {
@@ -79,7 +79,7 @@ class PFTemplateInForm {
 		$tif->mAddButtonText = wfMessage( 'pf_formedit_addanother' )->text();
 
 		if ( array_key_exists( $tif->mTemplateName, $wgPageFormsEmbeddedTemplates ) ) {
-			list( $tif->mEmbedInTemplate, $tif->mEmbedInField ) =
+			[ $tif->mEmbedInTemplate, $tif->mEmbedInField ] =
 				$wgPageFormsEmbeddedTemplates[$tif->mTemplateName];
 			$tif->mPlaceholder = PFFormPrinter::placeholderFormat( $tif->mEmbedInTemplate, $tif->mEmbedInField );
 		}
@@ -136,83 +136,83 @@ class PFTemplateInForm {
 		return $tif;
 	}
 
-	function getTemplateName() {
+	public function getTemplateName() {
 		return $this->mTemplateName;
 	}
 
-	function getHeight() {
+	public function getHeight() {
 		return $this->mHeight;
 	}
 
-	function getFields() {
+	public function getFields() {
 		return $this->mFields;
 	}
 
-	function getEmbedInTemplate() {
+	public function getEmbedInTemplate() {
 		return $this->mEmbedInTemplate;
 	}
 
-	function getEmbedInField() {
+	public function getEmbedInField() {
 		return $this->mEmbedInField;
 	}
 
-	function getLabel() {
+	public function getLabel() {
 		return $this->mLabel;
 	}
 
-	function getIntro() {
+	public function getIntro() {
 		return $this->mIntro;
 	}
 
-	function getAddButtonText() {
+	public function getAddButtonText() {
 		return $this->mAddButtonText;
 	}
 
-	function getDisplay() {
+	public function getDisplay() {
 		return $this->mDisplay;
 	}
 
-	function getEventTitleField() {
+	public function getEventTitleField() {
 		return $this->mEventTitleField;
 	}
 
-	function getEventDateField() {
+	public function getEventDateField() {
 		return $this->mEventDateField;
 	}
 
-	function getEventStartDateField() {
+	public function getEventStartDateField() {
 		return $this->mEventStartDateField;
 	}
 
-	function getEventEndDateField() {
+	public function getEventEndDateField() {
 		return $this->mEventEndDateField;
 	}
 
-	function getPlaceholder() {
+	public function getPlaceholder() {
 		return $this->mPlaceholder;
 	}
 
-	function getDisplayedFieldsWhenMinimized() {
+	public function getDisplayedFieldsWhenMinimized() {
 		return $this->mDisplayedFieldsWhenMinimized;
 	}
 
-	function allowsMultiple() {
+	public function allowsMultiple() {
 		return $this->mAllowMultiple;
 	}
 
-	function strictParsing() {
+	public function strictParsing() {
 		return $this->mStrictParsing;
 	}
 
-	function getMinInstancesAllowed() {
+	public function getMinInstancesAllowed() {
 		return $this->mMinAllowed;
 	}
 
-	function getMaxInstancesAllowed() {
+	public function getMaxInstancesAllowed() {
 		return $this->mMaxAllowed;
 	}
 
-	function createMarkup() {
+	public function createMarkup() {
 		$text = "{{{for template|" . $this->mTemplateName;
 		if ( $this->mAllowMultiple ) {
 			$text .= "|multiple";
@@ -245,52 +245,52 @@ class PFTemplateInForm {
 	 *
 	 * @return string
 	 */
-	function getFullTextInPage() {
+	public function getFullTextInPage() {
 		return $this->mFullTextInPage;
 	}
 
-	function pageCallsThisTemplate() {
+	public function pageCallsThisTemplate() {
 		return $this->mPageCallsThisTemplate;
 	}
 
-	function hasValueFromPageForField( $field_name ) {
+	public function hasValueFromPageForField( $field_name ) {
 		return array_key_exists( $field_name, $this->mValuesFromPage );
 	}
 
-	function getAndRemoveValueFromPageForField( $field_name ) {
+	public function getAndRemoveValueFromPageForField( $field_name ) {
 		$value = $this->mValuesFromPage[$field_name];
 		unset( $this->mValuesFromPage[$field_name] );
 		return $value;
 	}
 
-	function getValuesFromPage() {
+	public function getValuesFromPage() {
 		return $this->mValuesFromPage;
 	}
 
-	function getInstanceNum() {
+	public function getInstanceNum() {
 		return $this->mInstanceNum;
 	}
 
-	function getGridValues() {
+	public function getGridValues() {
 		return $this->mGridValues;
 	}
 
-	function incrementInstanceNum() {
+	public function incrementInstanceNum() {
 		$this->mInstanceNum++;
 	}
 
-	function allInstancesPrinted() {
+	public function allInstancesPrinted() {
 		return $this->mAllInstancesPrinted;
 	}
 
-	function addGridValue( $field_name, $cur_value ) {
+	public function addGridValue( $field_name, $cur_value ) {
 		if ( !array_key_exists( $this->mInstanceNum, $this->mGridValues ) ) {
 			$this->mGridValues[$this->mInstanceNum] = [];
 		}
 		$this->mGridValues[$this->mInstanceNum][$field_name] = $cur_value;
 	}
 
-	function addField( $form_field ) {
+	public function addField( $form_field ) {
 		$this->mFields[] = $form_field;
 	}
 
@@ -301,7 +301,7 @@ class PFTemplateInForm {
 	 * @param string $new_value
 	 * @param string|null $modifier
 	 */
-	function changeFieldValues( $field_name, $new_value, $modifier = null ) {
+	public function changeFieldValues( $field_name, $new_value, $modifier = null ) {
 		$this->mValuesFromPage[$field_name] = $new_value;
 		if ( $modifier !== null && array_key_exists( $field_name . $modifier, $this->mValuesFromPage ) ) {
 			// clean up old values with + or - in them from the array
@@ -309,7 +309,7 @@ class PFTemplateInForm {
 		}
 	}
 
-	function setFieldValuesFromSubmit() {
+	public function setFieldValuesFromSubmit() {
 		global $wgRequest;
 
 		// Reset values for every new instance, if this is a
@@ -383,7 +383,7 @@ class PFTemplateInForm {
 		}
 	}
 
-	function getValuesFromSubmit() {
+	public function getValuesFromSubmit() {
 		return $this->mValuesFromSubmit;
 	}
 
@@ -398,7 +398,7 @@ class PFTemplateInForm {
 	 * @param string[] &$replacements
 	 * @return string
 	 */
-	static function removeUnparsedText( $str, &$replacements ) {
+	public static function removeUnparsedText( $str, &$replacements ) {
 		$startAndEndTags = [
 			[ '<pre', 'pre>' ],
 			[ '<syntaxhighlight', 'syntaxhighlight>' ],
@@ -407,7 +407,7 @@ class PFTemplateInForm {
 			[ '<nowiki', 'nowiki>' ]
 		];
 		foreach ( $startAndEndTags as $tags ) {
-			list( $startTag, $endTag ) = $tags;
+			[ $startTag, $endTag ] = $tags;
 
 			$startTagLoc = -1;
 			while ( ( $startTagLoc + strlen( $startTag ) < strlen( $str ) ) &&
@@ -436,14 +436,14 @@ class PFTemplateInForm {
 	 * @param string[] $replacements
 	 * @return string
 	 */
-	static function restoreUnparsedText( $str, $replacements ) {
+	public static function restoreUnparsedText( $str, $replacements ) {
 		foreach ( $replacements as $i => $fullTagText ) {
 			$str = str_replace( "\1" . $i . "\2", $fullTagText, $str );
 		}
 		return $str;
 	}
 
-	function setFieldValuesFromPage( $existing_page_content ) {
+	public function setFieldValuesFromPage( $existing_page_content ) {
 		$unparsedTextReplacements = [];
 		$existing_page_content = self::removeUnparsedText( $existing_page_content, $unparsedTextReplacements );
 		$matches = [];
@@ -535,7 +535,7 @@ class PFTemplateInForm {
 	 * an existing page.
 	 * @param string $existing_page_content
 	 */
-	function setPageRelatedInfo( $existing_page_content ) {
+	public function setPageRelatedInfo( $existing_page_content ) {
 		// Replace underlines with spaces in template name, to allow for
 		// searching on either.
 		$this->mSearchTemplateStr = str_replace( '_', ' ', $this->mTemplateName );
@@ -549,7 +549,7 @@ class PFTemplateInForm {
 		}
 	}
 
-	function checkIfAllInstancesPrinted( $form_submitted, $source_is_page ) {
+	public function checkIfAllInstancesPrinted( $form_submitted, $source_is_page ) {
 		// Find additional instances of this template in the page
 		// (if it's an existing page) or the query string (if it's a
 		// new page).

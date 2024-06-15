@@ -16,7 +16,7 @@ use MediaWiki\MediaWikiServices;
  */
 class PFCreatePageJob extends Job {
 
-	function __construct( Title $title, array $params ) {
+	public function __construct( Title $title, array $params ) {
 		parent::__construct( 'pageFormsCreatePage', $title, $params );
 		$this->removeDuplicates = true;
 	}
@@ -25,7 +25,7 @@ class PFCreatePageJob extends Job {
 	 * Run a pageFormsCreatePage job
 	 * @return bool success
 	 */
-	function run() {
+	public function run() {
 		if ( $this->title === null ) {
 			$this->error = "pageFormsCreatePage: Invalid title";
 			return false;

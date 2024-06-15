@@ -30,6 +30,11 @@ class PFUploadWindow extends UnlistedSpecialPage {
 
 	/** @var WebRequest|FauxRequest The request this form is supposed to handle */
 	public $mRequest;
+	/**
+	 * This property stores mSourceType value
+	 *
+	 * @var string
+	 */
 	public $mSourceType;
 
 	/** @var UploadBase */
@@ -37,22 +42,67 @@ class PFUploadWindow extends UnlistedSpecialPage {
 
 	/** @var LocalFile */
 	public $mLocalFile;
+	/**
+	 * This property stores mUploadClicked value
+	 *
+	 * @var bool
+	 */
 	public $mUploadClicked;
 
+	/**
+	 * This property stores mTextTop value
+	 *
+	 * @var string
+	 */
 	protected $mTextTop;
+	/**
+	 * This property stores mTextAfterSummary value
+	 *
+	 * @var string
+	 */
 	protected $mTextAfterSummary;
 
 	/** User input variables from the "description" section */
 
 	/** @var string The requested target file name */
 	public $mDesiredDestName;
+	/**
+	 * This property stores mComment value
+	 *
+	 * @var string
+	 */
 	public $mComment;
+	/**
+	 * This property stores mLicense value
+	 *
+	 * @var string
+	 */
 	public $mLicense;
 
 	/** User input variables from the root section */
+	/**
+	 * This property stores mIgnoreWarning value
+	 *
+	 * @var bool
+	 */
 	public $mIgnoreWarning;
+	/**
+	 * This property stores mWatchThis value
+	 *
+	 * @var bool
+	 */
 	public $mWatchThis;
+	/**
+	 * This property stores mCopyrightStatus value
+	 *
+	 * @var string
+	 */
 	public $mCopyrightStatus;
+	/**
+	 * This property stores mCopyrightSource value
+	 *
+	 * @var string
+	 */
 	public $mCopyrightSource;
 
 	/** Hidden variables */
@@ -62,10 +112,25 @@ class PFUploadWindow extends UnlistedSpecialPage {
 
 	/** @var bool The user clicked "Cancel and return to upload form" button */
 	public $mCancelUpload;
+	/**
+	 * This property stores mTokenOk value
+	 *
+	 * @var bool
+	 */
 	public $mTokenOk;
 
 	/** used by Page Forms */
+	/**
+	 * This property stores mInputID value
+	 *
+	 * @var string
+	 */
 	public $mInputID;
+	/**
+	 * This property stores mDelimiter value
+	 *
+	 * @var string
+	 */
 	public $mDelimiter;
 
 	private $uploadFormTextTop;
@@ -252,7 +317,8 @@ class PFUploadWindow extends UnlistedSpecialPage {
 	protected function showViewDeletedLinks() {
 		$title = Title::makeTitleSafe( NS_FILE, $this->mDesiredDestName );
 		// Show a subtitle link to deleted revisions (to sysops et al only)
-		if ( $title instanceof Title && ( $count = $title->isDeleted() ) > 0
+		$count = $title->isDeleted();
+		if ( $title instanceof Title && ( $count ) > 0
 			&& $this->getUser()->isAllowed( 'deletedhistory' ) ) {
 			$link = $this->msg( $this->getUser()->isAllowed( 'delete' ) ? 'thisisdeleted' : 'viewdeleted' )
 				->rawParams( $this->getSkin()->linkKnown(
@@ -302,27 +368,27 @@ class PFUploadWindow extends UnlistedSpecialPage {
 			. '<ul class="warningbox">';
 		foreach ( $warnings as $warning => $args ) {
 				// Unlike the other warnings, this one can be worked around.
-				if ( $warning == 'badfilename' ) {
-					$this->mDesiredDestName = Title::makeTitle( NS_FILE, $args )->getText();
-				}
+			if ( $warning == 'badfilename' ) {
+				$this->mDesiredDestName = Title::makeTitle( NS_FILE, $args )->getText();
+			}
 
-				if ( $warning == 'exists' ) {
-					$msg = self::getExistsWarning( $args );
-				} elseif ( $warning == 'duplicate' ) {
-					$msg = $this->getDupeWarning( $args );
-				} elseif ( $warning == 'duplicate-archive' ) {
-					$msg = "\t<li>" . $this->msg(
-						'file-deleted-duplicate',
-						[ Title::makeTitle( NS_FILE, $args )->getPrefixedText() ]
-					)->parse() . "</li>\n";
-				} else {
-					if ( is_bool( $args ) ) {
-						$args = [];
-					} elseif ( !is_array( $args ) ) {
-						$args = [ $args ];
-					}
-					$msg = "\t<li>" . $this->msg( $warning, $args )->parse() . "</li>\n";
+			if ( $warning == 'exists' ) {
+				$msg = self::getExistsWarning( $args );
+			} elseif ( $warning == 'duplicate' ) {
+				$msg = $this->getDupeWarning( $args );
+			} elseif ( $warning == 'duplicate-archive' ) {
+				$msg = "\t<li>" . $this->msg(
+					'file-deleted-duplicate',
+					[ Title::makeTitle( NS_FILE, $args )->getPrefixedText() ]
+				)->parse() . "</li>\n";
+			} else {
+				if ( is_bool( $args ) ) {
+					$args = [];
+				} elseif ( !is_array( $args ) ) {
+					$args = [ $args ];
 				}
+				$msg = "\t<li>" . $this->msg( $warning, $args )->parse() . "</li>\n";
+			}
 				$warningHtml .= $msg;
 		}
 		$warningHtml .= "</ul>\n";

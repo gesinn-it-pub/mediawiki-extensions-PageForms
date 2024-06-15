@@ -129,7 +129,7 @@ class PFHooks {
 		return true;
 	}
 
-	static function registerFunctions( Parser $parser ) {
+	public static function registerFunctions( Parser $parser ) {
 		$parser->setFunctionHook( 'default_form', [ 'PFDefaultForm', 'run' ] );
 		$parser->setFunctionHook( 'forminput', [ 'PFFormInputParserFunction', 'run' ] );
 		$parser->setFunctionHook( 'formlink', [ 'PFFormLink', 'run' ] );
@@ -146,7 +146,7 @@ class PFHooks {
 		return true;
 	}
 
-	static function setGlobalJSVariables( &$vars ) {
+	public static function setGlobalJSVariables( &$vars ) {
 		global $wgPageFormsTargetName;
 		global $wgPageFormsAutocompleteValues, $wgPageFormsAutocompleteOnAllChars;
 		global $wgPageFormsFieldProperties, $wgPageFormsCargoFields, $wgPageFormsDependentFields;
@@ -396,7 +396,7 @@ class PFHooks {
 			'<div id="pfForm" class="previewnote" style="font-weight: bold">' . $previewNote . "</div>\n<hr />\n";
 
 		$form_definition = StringUtils::delimiterReplace( '<noinclude>', '</noinclude>', '', $editpage->textbox1 );
-		list( $form_text, $data_text, $form_page_title, $generated_page_name ) =
+		[ $form_text, $data_text, $form_page_title, $generated_page_name ] =
 			$wgPageFormsFormPrinter->formHTML( $form_definition, null, false, null, null, "Page Forms form preview dummy title", null );
 
 		$parserOutput = PFUtils::getParser()->getOutput();
@@ -480,7 +480,7 @@ class PFHooks {
 		MediaWiki\Revision\RevisionRecord $revisionRecord, MediaWiki\Storage\EditResult $editResult
 	) {
 		// Bots don't need this cookie
-		if ( key_exists( 'bot' , $_REQUEST) && $_REQUEST['bot'] === 'true' ) {
+		if ( array_key_exists( 'bot', $_REQUEST ) && $_REQUEST['bot'] === 'true' ) {
 			return true;
 		}
 		// Have this take effect only if the save came from a form -

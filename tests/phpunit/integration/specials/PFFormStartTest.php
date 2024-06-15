@@ -17,10 +17,10 @@ class PFFormStartTest extends MediaWikiIntegrationTestCase {
 	public function testEmptyQuery() {
 		$formStart = new PFFormStart();
 
-		$formStart->execute(null);
+		$formStart->execute( null );
 
 		$output = $formStart->getOutput();
-		$this->assertEquals('<div class="error">Error: No forms have been defined on this site.</div>', $output->mBodytext);
+		$this->assertEquals( '<div class="error">Error: No forms have been defined on this site.</div>', $output->mBodytext );
 	}
 
 }

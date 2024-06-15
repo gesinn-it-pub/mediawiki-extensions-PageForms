@@ -313,7 +313,7 @@ class PFValuesUtils {
 	 * @param string[] $pages
 	 * @return string[] a sorted version of $pages, sorted via $sortkeys
 	 */
-	static function fixedMultiSort( $sortkeys, $pages ) {
+	public static function fixedMultiSort( $sortkeys, $pages ) {
 		array_multisort( $sortkeys, $pages );
 		$newPages = [];
 		foreach ( $pages as $key => $value ) {
@@ -585,7 +585,7 @@ class PFValuesUtils {
 			if ( count( $arr ) == 3 ) {
 				$names_array = self::getValuesForCargoField( $arr[0], $arr[1], $arr[2] );
 			} else {
-				list( $table_name, $field_name ) = explode( '|', $source_name, 2 );
+				[ $table_name, $field_name ] = explode( '|', $source_name, 2 );
 				$names_array = self::getAllValuesForCargoField( $table_name, $field_name );
 			}
 			// Remove blank/null values from the array.
@@ -700,7 +700,7 @@ class PFValuesUtils {
 	 * @return string[]
 	 */
 	public static function setAutocompleteValues( $field_args, $is_list ) {
-		list( $autocompleteFieldType, $autocompletionSource ) =
+		[ $autocompleteFieldType, $autocompletionSource ] =
 			self::getAutocompletionTypeAndSource( $field_args );
 		$autocompleteSettings = $autocompletionSource;
 		if ( $is_list ) {

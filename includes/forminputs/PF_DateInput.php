@@ -59,7 +59,7 @@ class PFDateInput extends PFFormInput {
 		return 'dateInput';
 	}
 
-	static function parseDate( $date, $includeTime = false ) {
+	public static function parseDate( $date, $includeTime = false ) {
 		global $wgLanguageCode;
 
 		// Special handling for 'default=now'.
@@ -174,7 +174,7 @@ class PFDateInput extends PFFormInput {
 				$month = $date['month'];
 				$day = $date['day'];
 			} else {
-				list( $year, $month, $day ) = self::parseDate( $date );
+				[ $year, $month, $day ] = self::parseDate( $date );
 			}
 		} else {
 			// Just keep everything at null.

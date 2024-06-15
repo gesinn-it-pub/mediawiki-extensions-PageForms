@@ -17,10 +17,10 @@ class PFCreateFormTest extends MediaWikiIntegrationTestCase {
 	public function testGet() {
 		$createForm = new PFCreateForm();
 
-		$createForm->execute(null);
+		$createForm->execute( null );
 
 		$output = $createForm->getOutput();
-		$this->assertStringStartsWith("Create a form", $output->getPageTitle());
+		$this->assertStringStartsWith( "Create a form", $output->getPageTitle() );
 	}
 
 }

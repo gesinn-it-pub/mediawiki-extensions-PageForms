@@ -13,11 +13,11 @@
  */
 class PFCreateForm extends SpecialPage {
 
-	function __construct() {
+	public function __construct() {
 		parent::__construct( 'CreateForm' );
 	}
 
-	function execute( $query ) {
+	public function execute( $query ) {
 		$out = $this->getOutput();
 		$req = $this->getRequest();
 		$out->enableOOUI();
@@ -37,7 +37,7 @@ class PFCreateForm extends SpecialPage {
 		}
 	}
 
-	function doSpecialCreateForm( $query ) {
+	public function doSpecialCreateForm( $query ) {
 		$out = $this->getOutput();
 		$req = $this->getRequest();
 		$db = wfGetDB( DB_REPLICA );
@@ -78,7 +78,7 @@ class PFCreateForm extends SpecialPage {
 			# ignore variables that are not of the right form
 			if ( strpos( $var, "_" ) != false ) {
 				# get the template declarations and work from there
-				list( $action, $id ) = explode( "_", $var, 2 );
+				[ $action, $id ] = explode( "_", $var, 2 );
 				if ( $action == "template" ) {
 					// If the button was pressed to remove
 					// this template, just don't add it to
@@ -478,7 +478,7 @@ END;
 		$out->addHTML( $text );
 	}
 
-	function formCreationHTML( $form ) {
+	public function formCreationHTML( $form ) {
 		$text = "";
 		$template_count = 0;
 		$section_count = 0;
@@ -497,7 +497,7 @@ END;
 		return $text;
 	}
 
-	function sectionCreationHTML( $section, $section_count ) {
+	public function sectionCreationHTML( $section, $section_count ) {
 		$paramValues = [];
 		$section_name = $section->getSectionName();
 		$section_level = $section->getSectionLevel();
@@ -545,7 +545,7 @@ END;
 		return $text;
 	}
 
-	function templateCreationHTML( $tif, $template_num ) {
+	public function templateCreationHTML( $tif, $template_num ) {
 		$template_str = $this->msg( 'pf_createform_template' )->escaped();
 		$template_label_input = $this->msg( 'pf_createform_templatelabelinput' )->escaped();
 		$allow_multiple_text = $this->msg( 'pf_createform_allowmultiple' )->escaped();
@@ -595,7 +595,7 @@ END;
 		return $text;
 	}
 
-	function fieldCreationHTML( $field, $field_num, $template_num ) {
+	public function fieldCreationHTML( $field, $field_num, $template_num ) {
 		$field_form_text = $template_num . "_" . $field_num;
 		$template_field = $field->template_field;
 		$text = Html::element( 'h3', null, $this->msg( 'pf_createform_field' )->text() . " " . $template_field->getFieldName() ) . "\n";
@@ -708,7 +708,7 @@ END;
 		return $text;
 	}
 
-	function inputTypeDropdownHTML( $field_form_text, $default_input_type, $possible_input_types, $cur_input_type ) {
+	public function inputTypeDropdownHTML( $field_form_text, $default_input_type, $possible_input_types, $cur_input_type ) {
 		if ( $default_input_type !== null ) {
 			array_unshift( $possible_input_types, $default_input_type );
 		}
@@ -863,7 +863,7 @@ END;
 	 * @param array $paramValues
 	 * @return string
 	 */
-	function showSectionParameters( $section_count, $paramValues ) {
+	public function showSectionParameters( $section_count, $paramValues ) {
 		$text = '';
 		$section_text = 'section_' . $section_count;
 

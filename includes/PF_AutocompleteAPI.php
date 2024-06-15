@@ -445,7 +445,7 @@ class PFAutocompleteAPI extends ApiBase {
 		return $values;
 	}
 
-	static function cargoFieldIsList( $cargoTable, $cargoField ) {
+	public static function cargoFieldIsList( $cargoTable, $cargoField ) {
 		// @TODO - this is duplicate work; the schema is retrieved
 		// again when the CargoSQLQuery object is created. There should
 		// be some way of avoiding that duplicate retrieval.

@@ -15,7 +15,7 @@ class PFForm {
 	private $mAssociatedCategory;
 	private $mItems;
 
-	static function create( $formName, $items ) {
+	public static function create( $formName, $items ) {
 		$form = new PFForm();
 		$form->mFormName = ucfirst( str_replace( '_', ' ', $formName ) );
 		$form->mAssociatedCategory = null;
@@ -23,31 +23,31 @@ class PFForm {
 		return $form;
 	}
 
-	function getFormName() {
+	public function getFormName() {
 		return $this->mFormName;
 	}
 
-	function getItems() {
+	public function getItems() {
 		return $this->mItems;
 	}
 
-	function setPageNameFormula( $pageNameFormula ) {
+	public function setPageNameFormula( $pageNameFormula ) {
 		$this->mPageNameFormula = $pageNameFormula;
 	}
 
-	function setCreateTitle( $createTitle ) {
+	public function setCreateTitle( $createTitle ) {
 		$this->mCreateTitle = $createTitle;
 	}
 
-	function setEditTitle( $editTitle ) {
+	public function setEditTitle( $editTitle ) {
 		$this->mEditTitle = $editTitle;
 	}
 
-	function setAssociatedCategory( $associatedCategory ) {
+	public function setAssociatedCategory( $associatedCategory ) {
 		$this->mAssociatedCategory = $associatedCategory;
 	}
 
-	function createMarkup( $includeFreeText = true, $freeTextLabel = null ) {
+	public function createMarkup( $includeFreeText = true, $freeTextLabel = null ) {
 		$title = Title::makeTitle( PF_NS_FORM, $this->mFormName );
 		$fs = PFUtils::getSpecialPage( 'FormStart' );
 		$form_start_url = PFUtils::titleURLString( $fs->getPageTitle() ) . "/" . $title->getPartialURL();

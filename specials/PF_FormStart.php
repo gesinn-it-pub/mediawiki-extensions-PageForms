@@ -14,11 +14,11 @@
  */
 class PFFormStart extends SpecialPage {
 
-	function __construct() {
+	public function __construct() {
 		parent::__construct( 'FormStart' );
 	}
 
-	function execute( $query ) {
+	public function execute( $query ) {
 		$this->setHeaders();
 
 		$out = $this->getOutput();
@@ -136,7 +136,7 @@ END;
 	 * @param string $targetName
 	 * @return string
 	 */
-	static function getFormEditURL( $formName, $targetName ) {
+	public static function getFormEditURL( $formName, $targetName ) {
 		$fe = PFUtils::getSpecialPage( 'FormEdit' );
 		// Special handling for forms whose name contains a slash.
 		if ( strpos( $formName, '/' ) !== false ) {
@@ -145,7 +145,7 @@ END;
 		return $fe->getPageTitle( "$formName/$targetName" )->getLocalURL();
 	}
 
-	function doRedirect( $form_name, $page_name, $params ) {
+	public function doRedirect( $form_name, $page_name, $params ) {
 		$out = $this->getOutput();
 
 		$page_title = Title::newFromText( $page_name );
