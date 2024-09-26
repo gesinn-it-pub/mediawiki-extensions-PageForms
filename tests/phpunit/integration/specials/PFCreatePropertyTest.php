@@ -7,7 +7,7 @@
  */
 class PFCreatePropertyTest extends MediaWikiIntegrationTestCase {
 
-    public function setUp(): void {
+	public function setUp(): void {
 		parent::setUp();
 	}
 
