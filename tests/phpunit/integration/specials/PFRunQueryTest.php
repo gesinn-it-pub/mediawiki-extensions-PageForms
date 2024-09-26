@@ -5,7 +5,7 @@
  * This uses MediaWikiIntegrationTestCase, designed for testing in the MediaWiki framework.
  *
  * @covers \PFRunQuery
- * 
+ *
  * @group Database
  *
  * @author gesinn-it-ilm
@@ -23,7 +23,7 @@ class PFRunQueryTest extends MediaWikiIntegrationTestCase {
 	public function testExecuteWithoutQuery() {
 		// Create a special page instance
 		$specialPage = new PFRunQuery();
-		
+
 		// Create a faux request object with no form query
 		$request = new FauxRequest(
 			[
@@ -41,13 +41,13 @@ class PFRunQueryTest extends MediaWikiIntegrationTestCase {
 
 		// Capture the output
 		$outputPage = $context->getOutput();
-		
+
 		// Execute the special page
 		$specialPage->execute( '' );
 
 		// Capture the output after execution
 		$output = $outputPage->getHTML();
-		
+
 		// Check if the output contains an error message
 		$this->assertStringContainsString( 'error', $output );
 	}
@@ -72,7 +72,7 @@ class PFRunQueryTest extends MediaWikiIntegrationTestCase {
 
 		// Capture the output
 		$outputPage = $context->getOutput();
-		
+
 		// Execute the special page
 		$specialPage->execute( '' );
 
