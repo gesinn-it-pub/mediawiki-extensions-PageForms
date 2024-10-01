@@ -52,12 +52,19 @@ class PFRadioButtonInputTest extends MediaWikiIntegrationTestCase {
 		$result = call_user_func_array(
 			[ 'PFRadioButtonInput', 'getHTML' ], $args
 		);
-
-		$this->assertRegexp(
-			'#' . $expected['expected_html'] . '#',
-			$result,
-			'asserts that getHTML() returns the correct HTML text'
-		);
+		if ( version_compare( MW_VERSION, '1.40', '<' ) ) {
+			$this->assertRegexp(
+				'#' . $expected['expected_html'] . '#',
+				$result,
+				'asserts that getHTML() returns the correct HTML text'
+			);
+		} else {
+			$this->assertMatchesRegularExpression(
+				'#' . $expected['expected_html'] . '#',
+				$result,
+				'asserts that getHTML() returns the correct HTML text'
+			);
+		}
 	}
 
 	/**
@@ -401,15 +408,28 @@ class PFRadioButtonInputTest extends MediaWikiIntegrationTestCase {
 				return;
 			}
 
-			if ( isset( $expected['expected_form_text'] ) ) {
+			// use assertMatchesRegularExpression instead of deprecated assertRegexp in MW higher then 1.39
+			if ( isset( $expected['expected_form_text'] ) && version_compare( MW_VERSION, '1.40', '<' ) ) {
 				$this->assertRegexp(
 					'#' . $expected['expected_form_text'] . '#',
 					$form_text,
 					'asserts that formHTML() returns the correct HTML text for the form'
 				);
+			} elseif ( isset( $expected['expected_form_text'] ) ) {
+				$this->assertMatchesRegularExpression(
+					'#' . $expected['expected_form_text'] . '#',
+					$form_text,
+					'asserts that formHTML() returns the correct HTML text for the form'
+				);
 			}
-			if ( isset( $expected['expected_page_text'] ) ) {
+			if ( isset( $expected['expected_page_text'] ) && version_compare( MW_VERSION, '1.40', '<' ) ) {
 				$this->assertRegexp(
+					'#' . $expected['expected_page_text'] . '#',
+					$page_text,
+					'assert that formHTML() returns the correct text for the page created'
+				);
+			} elseif ( isset( $expected['expected_page_text'] ) ) {
+				$this->assertMatchesRegularExpression(
 					'#' . $expected['expected_page_text'] . '#',
 					$page_text,
 					'assert that formHTML() returns the correct text for the page created'
