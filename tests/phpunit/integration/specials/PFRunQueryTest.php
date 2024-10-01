@@ -53,6 +53,12 @@ class PFRunQueryTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testExecuteWithNonexistentForm() {
+		if ( version_compare( MW_VERSION, '1.39', '>' ) ) {
+			// Mock the hook for DisplayTitle to prevent the error
+			$this->overrideConfigValue( 'Hooks', [
+				'PageProps' => []
+			] );
+		}
 		// Create a special page instance
 		$specialPage = new PFRunQuery();
 
