@@ -1,5 +1,7 @@
 <?php
 
+use MediaWiki\MediaWikiServices;
+
 /**
  * @covers \PFCreateForm
  *
@@ -21,7 +23,7 @@ class PFCreateFormTest extends SpecialPageTestBase {
 	 */
 	protected function newSpecialPage() {
 		// Return an instance of PFCreateForm
-		return new PFCreateForm();
+		return MediaWikiServices::getInstance()->getSpecialPageFactory()->getPage( 'CreateForm' );
 	}
 
 	public function testGet() {

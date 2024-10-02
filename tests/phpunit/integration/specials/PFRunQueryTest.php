@@ -1,5 +1,7 @@
 <?php
 
+use MediaWiki\MediaWikiServices;
+
 /**
  * Integration test class for the PFRunQuery special page.
  * This uses MediaWikiIntegrationTestCase, designed for testing in the MediaWiki framework.
@@ -27,7 +29,7 @@ class PFRunQueryTest extends SpecialPageTestBase {
 	 */
 	protected function newSpecialPage() {
 		// Return an instance of PFRunQuery
-		return new PFRunQuery();
+		return MediaWikiServices::getInstance()->getSpecialPageFactory()->getPage( 'RunQuery' );
 	}
 
 	public function testExecuteWithoutQuery() {

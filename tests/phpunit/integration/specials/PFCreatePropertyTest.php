@@ -1,5 +1,7 @@
 <?php
 
+use MediaWiki\MediaWikiServices;
+
 /**
  * @covers \PFCreateProperty
  *
@@ -18,7 +20,7 @@ class PFCreatePropertyTest extends SpecialPageTestBase {
 	 */
 	protected function newSpecialPage() {
 		// Return an instance of PFCreateProperty
-		return new PFCreateProperty();
+		return MediaWikiServices::getInstance()->getSpecialPageFactory()->getPage( 'CreateProperty' );
 	}
 
 	/**

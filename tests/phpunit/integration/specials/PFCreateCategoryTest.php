@@ -1,5 +1,7 @@
 <?php
 
+use MediaWiki\MediaWikiServices;
+
 /**
  * Integration test class for the PFCreateCategory special page.
  * This uses SpecialPageTestBase, designed for testing in the MediaWiki framework.
@@ -26,7 +28,7 @@ class PFCreateCategoryTest extends SpecialPageTestBase {
 	 */
 	protected function newSpecialPage() {
 		// Return an instance of PFCreateCategory
-		return new PFCreateCategory();
+		return MediaWikiServices::getInstance()->getSpecialPageFactory()->getPage( 'CreateCategory' );
 	}
 
 	public function testGet() {

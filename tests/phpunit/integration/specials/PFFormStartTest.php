@@ -1,5 +1,7 @@
 <?php
 
+use MediaWiki\MediaWikiServices;
+
 /**
  * @covers \PFFormStart
  *
@@ -21,7 +23,7 @@ class PFFormStartTest extends SpecialPageTestBase {
 	 */
 	protected function newSpecialPage() {
 		// Return an instance of PFFormStart
-		return new PFFormStart();
+		return MediaWikiServices::getInstance()->getSpecialPageFactory()->getPage( 'FormStart' );
 	}
 
 	public function testEmptyQuery() {

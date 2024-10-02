@@ -1,5 +1,7 @@
 <?php
 
+use MediaWiki\MediaWikiServices;
+
 /**
  * Integration tests for the PFMultiPageEdit class.
  *
@@ -27,7 +29,7 @@ class PFMultiPageEditTest extends SpecialPageTestBase {
 	 */
 	protected function newSpecialPage() {
 		// Return an instance of PFMultiPageEdit
-		return new PFMultiPageEdit();
+		return MediaWikiServices::getInstance()->getSpecialPageFactory()->getPage( 'MultiPageEdit' );
 	}
 
 	/**

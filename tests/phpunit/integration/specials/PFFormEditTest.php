@@ -1,5 +1,7 @@
 <?php
 
+use MediaWiki\MediaWikiServices;
+
 /**
  * @covers \PFFormEdit
  * @covers \PFAutoeditAPI
@@ -25,7 +27,7 @@ class PFFormEditTest extends SpecialPageTestBase {
 	 */
 	protected function newSpecialPage() {
 		// Return an instance of PFFormEdit
-		return new PFFormEdit();
+		return MediaWikiServices::getInstance()->getSpecialPageFactory()->getPage( 'FormEdit' );
 	}
 
 	public function testEmptyQuery() {
@@ -69,40 +71,25 @@ class PFFormEditTest extends SpecialPageTestBase {
 	}
 
 	public function testPrintAltFormsList() {
-		if ( version_compare( MW_VERSION, '1.38', '>' ) ) {
-			$this->markTestSkipped( 'Check how to properly register special page inside tests for MW 1.39 and higher!' );
-		}
-		// Sample input data
-		$altForms = [ 'Form1', 'Form2' ];
-		$targetName = 'TargetPage';
+        // Create an instance of PFFormEdit
+        $formEdit = $this->newSpecialPage();
 
-		// Mocking the PFUtils::getSpecialPage method
-		$mockSpecialPage = $this->createMock( SpecialPage::class );
-		$mockTitle = $this->createMock( Title::class );
+        // Prepare input for the test
+        $alt_forms = [ 'FormA', 'FormB', 'FormC' ];
+        $target_name = 'SampleTarget';
 
-		// Set expectations on the mocked objects
-		$mockTitle->expects( $this->once() )
-			->method( 'getFullURL' )
-			->willReturn( 'https://example.com/index.php/Special:FormEdit' );
+        // Expected URL for the special page
+        $fe_url = SpecialPage::getTitleFor( 'FormEdit' )->getFullURL();
+        
+        // Manually construct the expected output
+        $expected_output = '<a href="' . $fe_url . '/FormA/SampleTarget">FormA</a>, ' .
+                           '<a href="' . $fe_url . '/FormB/SampleTarget">FormB</a>, ' .
+                           '<a href="' . $fe_url . '/FormC/SampleTarget">FormC</a>';
+        
+        // Call the method being tested
+        $result = $formEdit->printAltFormsList( $alt_forms, $target_name );
 
-		$mockSpecialPage->expects( $this->once() )
-			->method( 'getPageTitle' )
-			->willReturn( $mockTitle );
-
-		// Replace the static method call in PFUtils with the mock
-		$this->setMwGlobals( 'wgSpecialPages', [ 'FormEdit' => $mockSpecialPage ] );
-
-		// Create an instance of the class that contains printAltFormsList
-		$pfFormEdit = $this->newSpecialPage();
-
-		// Run the method with the mocked objects and inputs
-		$output = $pfFormEdit->printAltFormsList( $altForms, $targetName );
-
-		// Check the expected HTML output
-		$expectedOutput = '<a href="https://example.com/index.php/Special:FormEdit/Form1/TargetPage">Form1</a>, ' .
-						  '<a href="https://example.com/index.php/Special:FormEdit/Form2/TargetPage">Form2</a>';
-
-		// Assert the output matches the expected result
-		$this->assertEquals( $expectedOutput, $output );
-	}
+        // Assert that the result matches the expected output
+        $this->assertEquals( $expected_output, $result );
+    }
 }

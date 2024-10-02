@@ -1,5 +1,7 @@
 <?php
 
+use MediaWiki\MediaWikiServices;
+
 /**
  * @covers \PFCreateTemplate
  *
@@ -21,7 +23,7 @@ class PFCreateTemplateTest extends SpecialPageTestBase {
 	 */
 	protected function newSpecialPage() {
 		// Return an instance of PFCreateTemplate
-		return new PFCreateTemplate();
+		return MediaWikiServices::getInstance()->getSpecialPageFactory()->getPage( 'CreateTemplate' );
 	}
 
 	public function testGetCreatePage() {
