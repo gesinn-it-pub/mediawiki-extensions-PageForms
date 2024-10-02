@@ -15,14 +15,14 @@ class PFFormStartTest extends SpecialPageTestBase {
 	}
 
 	/**
-     * Create an instance of the special page being tested.
-     *
-     * @return SpecialPage
-     */
-    protected function newSpecialPage() {
-        // Return an instance of PFFormStart
-        return new PFFormStart();
-    }
+	 * Create an instance of the special page being tested.
+	 *
+	 * @return SpecialPage
+	 */
+	protected function newSpecialPage() {
+		// Return an instance of PFFormStart
+		return new PFFormStart();
+	}
 
 	public function testEmptyQuery() {
 		$formStart = $this->newSpecialPage();

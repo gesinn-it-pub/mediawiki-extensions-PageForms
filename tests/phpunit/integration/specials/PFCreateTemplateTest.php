@@ -15,14 +15,14 @@ class PFCreateTemplateTest extends SpecialPageTestBase {
 	}
 
 	/**
-     * Create an instance of the special page being tested.
-     *
-     * @return SpecialPage
-     */
-    protected function newSpecialPage() {
-        // Return an instance of PFCreateTemplate
-        return new PFCreateTemplate();
-    }
+	 * Create an instance of the special page being tested.
+	 *
+	 * @return SpecialPage
+	 */
+	protected function newSpecialPage() {
+		// Return an instance of PFCreateTemplate
+		return new PFCreateTemplate();
+	}
 
 	public function testGetCreatePage() {
 		$createTemplate = $this->newSpecialPage();

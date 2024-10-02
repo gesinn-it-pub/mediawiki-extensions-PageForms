@@ -20,14 +20,14 @@ class PFCreateCategoryTest extends SpecialPageTestBase {
 	}
 
 	/**
-     * Create an instance of the special page being tested.
-     *
-     * @return SpecialPage
-     */
-    protected function newSpecialPage() {
-        // Return an instance of PFCreateCategory
-        return new PFCreateCategory();
-    }
+	 * Create an instance of the special page being tested.
+	 *
+	 * @return SpecialPage
+	 */
+	protected function newSpecialPage() {
+		// Return an instance of PFCreateCategory
+		return new PFCreateCategory();
+	}
 
 	public function testGet() {
 		// Instantiate the PFCreateCategory special page

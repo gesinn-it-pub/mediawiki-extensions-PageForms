@@ -21,14 +21,14 @@ class PFRunQueryTest extends SpecialPageTestBase {
 	}
 
 	/**
-     * Create an instance of the special page being tested.
-     *
-     * @return SpecialPage
-     */
-    protected function newSpecialPage() {
-        // Return an instance of PFRunQuery
-        return new PFRunQuery();
-    }
+	 * Create an instance of the special page being tested.
+	 *
+	 * @return SpecialPage
+	 */
+	protected function newSpecialPage() {
+		// Return an instance of PFRunQuery
+		return new PFRunQuery();
+	}
 
 	public function testExecuteWithoutQuery() {
 		// Create a special page instance

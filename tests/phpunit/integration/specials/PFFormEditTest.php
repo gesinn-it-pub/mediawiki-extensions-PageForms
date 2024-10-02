@@ -19,14 +19,14 @@ class PFFormEditTest extends SpecialPageTestBase {
 	}
 
 	/**
-     * Create an instance of the special page being tested.
-     *
-     * @return SpecialPage
-     */
-    protected function newSpecialPage() {
-        // Return an instance of PFFormEdit
-        return new PFFormEdit();
-    }
+	 * Create an instance of the special page being tested.
+	 *
+	 * @return SpecialPage
+	 */
+	protected function newSpecialPage() {
+		// Return an instance of PFFormEdit
+		return new PFFormEdit();
+	}
 
 	public function testEmptyQuery() {
 		$formEdit = $this->newSpecialPage();

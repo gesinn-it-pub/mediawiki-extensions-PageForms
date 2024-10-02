@@ -12,14 +12,14 @@ class PFCreatePropertyTest extends SpecialPageTestBase {
 	}
 
 	/**
-     * Create an instance of the special page being tested.
-     *
-     * @return SpecialPage
-     */
-    protected function newSpecialPage() {
-        // Return an instance of PFCreateProperty
-        return new PFCreateProperty();
-    }
+	 * Create an instance of the special page being tested.
+	 *
+	 * @return SpecialPage
+	 */
+	protected function newSpecialPage() {
+		// Return an instance of PFCreateProperty
+		return new PFCreateProperty();
+	}
 
 	/**
 	 * Tests the execute method of the special page
