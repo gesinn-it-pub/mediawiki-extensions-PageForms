@@ -5,7 +5,7 @@
  *
  * @author gesinn-it-wam
  */
-class PFCreateFormTest extends MediaWikiIntegrationTestCase {
+class PFCreateFormTest extends SpecialPageTestBase {
 
 	use IntegrationTestHelpers;
 
@@ -14,8 +14,18 @@ class PFCreateFormTest extends MediaWikiIntegrationTestCase {
 		$this->requireLanguageCodeEn();
 	}
 
+	/**
+     * Create an instance of the special page being tested.
+     *
+     * @return SpecialPage
+     */
+    protected function newSpecialPage() {
+        // Return an instance of PFCreateForm
+        return new PFCreateForm();
+    }
+
 	public function testGet() {
-		$createForm = new PFCreateForm();
+		$createForm = $this->newSpecialPage();
 
 		$createForm->execute( null );
 

@@ -10,7 +10,7 @@
  *
  * @author gesinn-it-ilm
  */
-class PFRunQueryTest extends MediaWikiIntegrationTestCase {
+class PFRunQueryTest extends SpecialPageTestBase {
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -20,9 +20,19 @@ class PFRunQueryTest extends MediaWikiIntegrationTestCase {
 		}
 	}
 
+	/**
+     * Create an instance of the special page being tested.
+     *
+     * @return SpecialPage
+     */
+    protected function newSpecialPage() {
+        // Return an instance of PFRunQuery
+        return new PFRunQuery();
+    }
+
 	public function testExecuteWithoutQuery() {
 		// Create a special page instance
-		$specialPage = new PFRunQuery();
+		$specialPage = $this->newSpecialPage();
 
 		// Create a faux request object with no form query
 		$request = new FauxRequest(
@@ -60,7 +70,7 @@ class PFRunQueryTest extends MediaWikiIntegrationTestCase {
 			] );
 		}
 		// Create a special page instance
-		$specialPage = new PFRunQuery();
+		$specialPage = $this->newSpecialPage();
 
 		// Create a request object with a non-existent form name
 		$request = new FauxRequest(
@@ -94,7 +104,7 @@ class PFRunQueryTest extends MediaWikiIntegrationTestCase {
 
 	public function testExecuteWithValidForm() {
 		// Create a special page instance
-		$specialPage = new PFRunQuery();
+		$specialPage = $this->newSpecialPage();
 
 		// Mock the request with a valid form
 		$request = new FauxRequest(
@@ -127,7 +137,7 @@ class PFRunQueryTest extends MediaWikiIntegrationTestCase {
 
 	public function testSubmitFormQuery() {
 		// Create a special page instance
-		$specialPage = new PFRunQuery();
+		$specialPage = $this->newSpecialPage();
 
 		// Mock the request with valid form data and a _run parameter
 		$request = new FauxRequest(

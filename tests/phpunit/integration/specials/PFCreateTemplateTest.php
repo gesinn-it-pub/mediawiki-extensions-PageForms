@@ -5,7 +5,7 @@
  *
  * @author gesinn-it-wam
  */
-class PFCreateTemplateTest extends MediaWikiIntegrationTestCase {
+class PFCreateTemplateTest extends SpecialPageTestBase {
 
 	use IntegrationTestHelpers;
 
@@ -14,8 +14,18 @@ class PFCreateTemplateTest extends MediaWikiIntegrationTestCase {
 		$this->requireLanguageCodeEn();
 	}
 
+	/**
+     * Create an instance of the special page being tested.
+     *
+     * @return SpecialPage
+     */
+    protected function newSpecialPage() {
+        // Return an instance of PFCreateTemplate
+        return new PFCreateTemplate();
+    }
+
 	public function testGetCreatePage() {
-		$createTemplate = new PFCreateTemplate();
+		$createTemplate = $this->newSpecialPage();
 
 		$createTemplate->execute( null );
 
@@ -24,7 +34,7 @@ class PFCreateTemplateTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testCreateTemplate() {
-		$createTemplate = new PFCreateTemplate();
+		$createTemplate = $this->newSpecialPage();
 		$context = new RequestContext();
 		$createTemplate->setContext( $context );
 		$values = [

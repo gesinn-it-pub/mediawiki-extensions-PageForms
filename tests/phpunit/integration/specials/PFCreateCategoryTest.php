@@ -2,13 +2,14 @@
 
 /**
  * Integration test class for the PFCreateCategory special page.
- * This uses MediaWikiIntegrationTestCase, designed for testing in the MediaWiki framework.
+ * This uses SpecialPageTestBase, designed for testing in the MediaWiki framework.
+ * SpecialPageTestBase extends MediaWikiIntegrationTestCase
  *
  * @covers \PFCreateCategory
  *
  * @author gesinn-it-ilm
  */
-class PFCreateCategoryTest extends MediaWikiIntegrationTestCase {
+class PFCreateCategoryTest extends SpecialPageTestBase {
 
 	/**
 	 * Set up the test environment.
@@ -18,9 +19,19 @@ class PFCreateCategoryTest extends MediaWikiIntegrationTestCase {
 		parent::setUp();
 	}
 
+	/**
+     * Create an instance of the special page being tested.
+     *
+     * @return SpecialPage
+     */
+    protected function newSpecialPage() {
+        // Return an instance of PFCreateCategory
+        return new PFCreateCategory();
+    }
+
 	public function testGet() {
 		// Instantiate the PFCreateCategory special page
-		$createCategoryPage = new PFCreateCategory();
+		$createCategoryPage = $this->newSpecialPage();
 
 		// Set up the context manually with a simulated request
 		$context = RequestContext::getMain();
@@ -70,7 +81,7 @@ class PFCreateCategoryTest extends MediaWikiIntegrationTestCase {
 		$context->setRequest( $request );
 
 		// Execute the special page
-		$specialPage = new PFCreateCategory();
+		$specialPage = $this->newSpecialPage();
 		$specialPage->setContext( $context );
 		$specialPage->execute( null );
 

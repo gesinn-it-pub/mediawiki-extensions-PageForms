@@ -5,18 +5,28 @@
  *
  * @author gesinn-it-ilm
  */
-class PFCreatePropertyTest extends MediaWikiIntegrationTestCase {
+class PFCreatePropertyTest extends SpecialPageTestBase {
 
 	public function setUp(): void {
 		parent::setUp();
 	}
 
 	/**
+     * Create an instance of the special page being tested.
+     *
+     * @return SpecialPage
+     */
+    protected function newSpecialPage() {
+        // Return an instance of PFCreateProperty
+        return new PFCreateProperty();
+    }
+
+	/**
 	 * Tests the execute method of the special page
 	 */
 	public function testExecute() {
 		// Set up the special page object
-		$specialPage = new PFCreateProperty();
+		$specialPage = $this->newSpecialPage();
 
 		// Create a simulated request
 		$request = new FauxRequest( [] );
@@ -56,7 +66,7 @@ class PFCreatePropertyTest extends MediaWikiIntegrationTestCase {
 		$this->setMwGlobals( 'wgRequest', $request );
 
 		// Set up the special page object and context
-		$specialPage = new PFCreateProperty();
+		$specialPage = $this->newSpecialPage();
 		$context = new RequestContext();
 		$context->setRequest( $request );
 		$context->setTitle( Title::newFromText( 'Special:CreateProperty' ) );

@@ -8,7 +8,7 @@
  *
  * @author gesinn-it-wam
  */
-class PFFormEditTest extends MediaWikiIntegrationTestCase {
+class PFFormEditTest extends SpecialPageTestBase {
 
 	use IntegrationTestHelpers;
 
@@ -18,8 +18,18 @@ class PFFormEditTest extends MediaWikiIntegrationTestCase {
 		$this->tablesUsed[] = 'page';
 	}
 
+	/**
+     * Create an instance of the special page being tested.
+     *
+     * @return SpecialPage
+     */
+    protected function newSpecialPage() {
+        // Return an instance of PFFormEdit
+        return new PFFormEdit();
+    }
+
 	public function testEmptyQuery() {
-		$formEdit = new PFFormEdit();
+		$formEdit = $this->newSpecialPage();
 
 		$formEdit->execute( null );
 
@@ -28,7 +38,7 @@ class PFFormEditTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testInvalidForm() {
-		$formEdit = new PFFormEdit();
+		$formEdit = $this->newSpecialPage();
 
 		$formEdit->execute( "InvalidForm/X" );
 
@@ -48,7 +58,7 @@ class PFFormEditTest extends MediaWikiIntegrationTestCase {
 			{{{end template}}}
 		EOF;
 		$this->insertPage( 'Form:Thing', $formText );
-		$formEdit = new PFFormEdit();
+		$formEdit = $this->newSpecialPage();
 
 		$formEdit->execute( "Thing/Thing1" );
 
@@ -83,7 +93,7 @@ class PFFormEditTest extends MediaWikiIntegrationTestCase {
 		$this->setMwGlobals( 'wgSpecialPages', [ 'FormEdit' => $mockSpecialPage ] );
 
 		// Create an instance of the class that contains printAltFormsList
-		$pfFormEdit = new PFFormEdit();
+		$pfFormEdit = $this->newSpecialPage();
 
 		// Run the method with the mocked objects and inputs
 		$output = $pfFormEdit->printAltFormsList( $altForms, $targetName );

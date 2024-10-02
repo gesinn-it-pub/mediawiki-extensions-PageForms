@@ -9,7 +9,7 @@
  *
  * @author gesinn-it-ilm
  */
-class PFMultiPageEditTest extends MediaWikiIntegrationTestCase {
+class PFMultiPageEditTest extends SpecialPageTestBase {
 
     protected function setUp(): void {
         parent::setUp();
@@ -18,6 +18,16 @@ class PFMultiPageEditTest extends MediaWikiIntegrationTestCase {
             '*' => [ 'multipageedit' => true ],
             'user' => [ 'multipageedit' => true ]
         ] );
+    }
+
+    /**
+     * Create an instance of the special page being tested.
+     *
+     * @return SpecialPage
+     */
+    protected function newSpecialPage() {
+        // Return an instance of PFMultiPageEdit
+        return new PFMultiPageEdit();
     }
 
     /**
@@ -35,7 +45,7 @@ class PFMultiPageEditTest extends MediaWikiIntegrationTestCase {
         RequestContext::getMain()->setRequest( $request );
 
         // Create an instance of PFMultiPageEdit and call execute().
-        $specialPage = new PFMultiPageEdit();
+        $specialPage = $this->newSpecialPage();
         $specialPage->execute( null );
 
         // Fetch the OutputPage object from the context.
@@ -64,7 +74,7 @@ class PFMultiPageEditTest extends MediaWikiIntegrationTestCase {
         $this->editPage( 'Form:TestForm', '{{{for template|TestTemplate}}}' );
 
         // Create an instance of PFMultiPageEdit and call execute to trigger displaySpreadsheet().
-        $specialPage = new PFMultiPageEdit();
+        $specialPage = $this->newSpecialPage();
         $specialPage->execute( null );
 
         // Fetch the OutputPage object from the context.
