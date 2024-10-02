@@ -85,6 +85,10 @@
 	"settings": {
 	},
 	"meta": {
+		"skip-on": {
+				"sqlite": "Update DisplayTitle ext PageProps:getInstance() call for MW > 1.39",
+				"mysql": "Update DisplayTitle ext PageProps:getInstance() call for MW > 1.39"
+			},
 		"version": "2",
 		"is-incomplete": false,
 		"debug": false
