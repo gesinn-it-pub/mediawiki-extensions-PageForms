@@ -93,4 +93,59 @@ class PFCreateCategoryTest extends SpecialPageTestBase {
 		// Check that the CSRF protection message is shown
 		$this->assertStringContainsString( 'cross-site request forgery', $outputText );
 	}
+
+	public function testForm() {
+        // Create new special page
+        $createCategory = $this->newSpecialPage();
+        $context = new RequestContext();
+        $createCategory->setContext( $context );
+
+        // Set the test values
+        $values = [
+            "title" => "Special:CreateCategory",
+            "category_name" => "NewCategory",
+            "default_form" => "ExampleForm",
+            "parent_category" => "ParentCategory",
+            "csrf" => $context->getUser()->getEditToken( 'CreateCategory' ),
+            "wpSave" => ""
+        ];
+
+        // Set the values inside the page context
+        foreach ( $values as $k => $v ) {
+            $context->getRequest()->setVal( $k, $v );
+        }
+
+        // Execute the page
+        $createCategory->execute( null );
+
+        // Get the page output
+        $output = $createCategory->getOutput();
+
+		// Additional DOMDocument checks
+		$dom = new DomDocument;
+		@$dom->loadHTML( $output->mBodytext );
+		$xpath = new DomXPath( $dom );
+	
+		// Query for the form element
+		$form = $xpath->query( '//form[contains(@action,"Category:NewCategory")]' )->item( 0 );
+		$this->assertNotNull( $form, 'Category creation form not found' );
+
+		$this->assertEquals( 'editform', $form->getAttribute( 'name' ) );
+		$this->assertEquals( 'post', $form->getAttribute( 'method' ) );
+		$this->assertEquals( '/index.php?title=Category:NewCategory&action=submit', $form->getAttribute( 'action' ), 'Form action does not match expected value' );
+		 
+		// Check for the presence of "Category:NewCategory" in the HTML body
+		$this->assertNotFalse( $xpath->query( ' //text()[contains(., "Category:NewCategory")]' )->length, 'Category:NewCategory text not found' );
+
+		// Check the default form value in the wpTextbox1 input
+		$inputDefaultForm = $xpath->query( '//input[@name="wpTextbox1"]' )->item( 0 );
+		$this->assertNotNull( $inputDefaultForm, 'Special:CreateCategory: <input name="wpTextbox1"/> not found' );
+		$this->assertStringContainsString( '{{#default_form:ExampleForm}}', $inputDefaultForm->getAttribute( 'value' ), 'Default form value does not match' );
+
+		// Assert that wpSave is present
+		$this->assertNotNull(
+			$xpath->query( '//input[@name="wpSave"]' )->item( 0 ),
+			'wpSave input not found'
+		);
+	}
 }
