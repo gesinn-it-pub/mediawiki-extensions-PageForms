@@ -3,19 +3,19 @@
 namespace PF\Tests\Integration\JSONScript;
 
 use ExtensionRegistry;
+use MediaWiki\MediaWikiServices;
 use Parser;
+use PFArrayMap;
+use PFArrayMapTemplate;
+use PFAutoEdit;
+use PFAutoEditRating;
 use PFDefaultForm;
 use PFFormInputParserFunction;
 use PFFormLink;
 use PFFormRedLink;
 use PFQueryFormLink;
-use PFArrayMap;
-use PFArrayMapTemplate;
-use PFAutoEdit;
-use PFAutoEditRating;
-use PFTemplateParams;
 use PFTemplateDisplay;
-use MediaWiki\MediaWikiServices;
+use PFTemplateParams;
 use SMW\Tests\Integration\JSONScript\JSONScriptTestCaseRunnerTest;
 
 define( "TEST_NAMESPACE", 3000 );
