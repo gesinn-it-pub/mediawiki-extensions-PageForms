@@ -11,7 +11,6 @@
 		{
 			"type": "format",
 			"about": "forminput using FULLPAGENAME as value",
-	
 			"subject": "Test_Namespace:1 & 2 + 3",
 			"assert-output": {
 				"to-contain": [
