@@ -19,6 +19,7 @@ use MediaWiki\MediaWikiServices;
 use SMW\Tests\Integration\JSONScript\JSONScriptTestCaseRunnerTest;
 
 define( "TEST_NAMESPACE", 3000 );
+$wgExtraNamespaces[TEST_NAMESPACE] = "Test_Namespace";
 
 /**
  * @group PF
@@ -28,9 +29,6 @@ class JsonTestCaseScriptRunnerTest extends JSONScriptTestCaseRunnerTest {
 
     protected function setUp(): void {
         parent::setUp();
-
-        global $wgExtraNamespaces;
-        $wgExtraNamespaces[ TEST_NAMESPACE ] = "Test_Namespace";
 
         // Register parser functions directly
         $parser = $this->getParser();
@@ -52,27 +50,27 @@ class JsonTestCaseScriptRunnerTest extends JSONScriptTestCaseRunnerTest {
         return MediaWikiServices::getInstance()->getParser();
     }
 
-    protected function getTestCaseLocation() {
-        return __DIR__ . '/TestCases';
-    }
+	protected function getTestCaseLocation() {
+		return __DIR__ . '/TestCases';
+	}
 
-    protected function getPermittedSettings() {
-        return array_merge( parent::getPermittedSettings(), [
-            'wgPageFormsAutocompleteOnAllChars',
-            'wgAllowDisplayTitle',
-            'wgRestrictDisplayTitle',
-        ] );
-    }
+	protected function getPermittedSettings() {
+		return array_merge( parent::getPermittedSettings(), [
+			'wgPageFormsAutocompleteOnAllChars',
+			'wgAllowDisplayTitle',
+			'wgRestrictDisplayTitle',
+		] );
+	}
 
-    protected function getDependencyDefinitions() {
-        return [
-            'DisplayTitle' => static function ( $val, &$reason ) {
-                if ( !ExtensionRegistry::getInstance()->isLoaded( 'DisplayTitle' ) ) {
-                    $reason = "Dependency: DisplayTitle as requirement for the test is not available!";
-                    return false;
-                }
-                return true;
-            }
-        ];
-    }
+	protected function getDependencyDefinitions() {
+		return [
+			'DisplayTitle' => static function ( $val, &$reason ) {
+				if ( !ExtensionRegistry::getInstance()->isLoaded( 'DisplayTitle' ) ) {
+					$reason = "Dependency: DisplayTitle as requirement for the test is not available!";
+					return false;
+				}
+				return true;
+			}
+		];
+	}
 }
