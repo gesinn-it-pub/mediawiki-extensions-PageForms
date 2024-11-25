@@ -11,9 +11,7 @@
 		{
 			"type": "format",
 			"about": "forminput using FULLPAGENAME as value",
-			"skip-on": {
-				"mediawiki": [ ">1.38.x", "Check assertions failing, related to SMW" ]
-			},
+	
 			"subject": "Test_Namespace:1 & 2 + 3",
 			"assert-output": {
 				"to-contain": [

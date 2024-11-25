@@ -28,9 +28,6 @@
 		{
 			"type": "format",
 			"about": "plain formlink",
-			"skip-on": {
-				"mediawiki": [ ">1.38.x", "Check assertions failing, related to SMW" ]
-			},
 			"subject": "plain formlink",
 			"assert-output": {
 				"to-contain": [
@@ -41,9 +38,6 @@
 		{
 			"type": "format",
 			"about": "plain formlink of type button",
-			"skip-on": {
-				"mediawiki": [ ">1.38.x", "Check assertions failing, related to SMW" ]
-			},
 			"subject": "plain formlink of type button",
 			"assert-output": {
 				"to-contain": [
@@ -56,9 +50,6 @@
 		{
 			"type": "format",
 			"about": "formlink using FULLPAGENAME as value",
-			"skip-on": {
-				"mediawiki": [ ">1.38.x", "Check assertions failing, related to SMW" ]
-			},
 			"subject": "Test_Namespace:1 & 2 + 3",
 			"assert-output": {
 				"to-contain": [
@@ -69,9 +60,6 @@
 		{
 			"type": "format",
 			"about": "formlink of type button using FULLPAGENAME as value",
-			"skip-on": {
-				"mediawiki": [ ">1.38.x", "Check assertions failing, related to SMW" ]
-			},
 			"subject": "Test_Namespace:1 & 2 + 3 button",
 			"assert-output": {
 				"to-contain": [
