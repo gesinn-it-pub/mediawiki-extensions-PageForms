@@ -17,14 +17,28 @@ class PFFormFieldTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
+		// Mocking the Parser object
+		$this->mockParser = $this->createMock( Parser::class );
+		$this->mockParser->method( 'recursivePreprocess' )
+			->willReturnCallback( fn ( $input ) => $input );
+		$this->mockParser->method( 'recursiveTagParse' )
+			->willReturnCallback( fn ( $input ) => $input );
+
+		// Mocking the User object
+		$this->mockUser = $this->createMock( User::class );
+		$this->mockUser->method( 'isAllowed' )
+			->with( 'editrestrictedfields' )
+			->willReturn( false );
+
+		// Mocking the object being updated
+		$this->f = new stdClass();
+		$this->f->mFieldArgs = [];
+
 		// Mocking the Template object
 		$this->mockTemplate = $this->createMock( PFTemplate::class );
 
 		// Mocking TemplateInForm object
 		$this->mockTemplateInForm = $this->createMock( PFTemplateInForm::class );
-
-		// Mocking the User object
-		$this->mockUser = $this->createMock( User::class );
 
 		// Mock the PFTemplateField class
 		$this->mockTemplateField = $this->createMock( PFTemplateField::class );
@@ -148,6 +162,107 @@ class PFFormFieldTest extends TestCase {
 			$this->assertInstanceOf( PFTemplateField::class, $formField->template_field );
 			$this->assertNull( $formField->template_field->isList() );
 			$this->assertFalse( $this->mockTemplateField->mIsList );
+		}
+	}
+
+	public function testMandatoryComponent() {
+		$tag_components = [ '', '', 'mandatory' ];
+
+		$this->processComponents( $tag_components );
+
+		$this->assertTrue( $this->f->mIsMandatory );
+	}
+
+	public function testHiddenComponent() {
+		$tag_components = [ '', '', 'hidden' ];
+
+		$this->processComponents( $tag_components );
+
+		$this->assertTrue( $this->f->mIsHidden );
+	}
+
+	public function testRestrictedComponent() {
+		$tag_components = [ '', '', 'restricted' ];
+
+		$this->processComponents( $tag_components );
+
+		$this->assertTrue( $this->f->mIsRestricted );
+	}
+
+	public function testKeyValueComponent() {
+		$tag_components = [ '', '', 'autocapitalize=uppercase' ];
+
+		$this->processComponents( $tag_components );
+
+		$this->assertEquals( 'uppercase', $this->f->mAutocapitalize );
+	}
+
+	public function testDefaultFilenameComponent() {
+		$tag_components = [ '', '', 'default filename=example_<page name>.txt' ];
+		$mockTitle = $this->createMock( Title::class );
+		$mockTitle->method( 'getText' )->willReturn( 'SamplePage' );
+		$mockTitle->method( 'isSpecialPage' )->willReturn( false );
+		$mockContext = RequestContext::getMain();
+		$mockContext->setTitle( $mockTitle );
+
+		$this->processComponents( $tag_components );
+
+		$this->assertEquals( 'example_SamplePage.txt', $this->f->mFieldArgs['default filename'] );
+	}
+
+	protected function processComponents( $tag_components ) {
+		global $wgPageFormsDependentFields;
+
+		$wgPageFormsDependentFields = [];
+		$show_on_select = [];
+		$values = null;
+		$valuesSource = null;
+		$valuesSourceType = null;
+
+		// Place the code being tested here, or call the relevant method
+		for ( $i = 2; $i < count( $tag_components ); $i++ ) {
+			$component = trim( $tag_components[$i] );
+
+			if ( $component == 'mandatory' ) {
+				$this->f->mIsMandatory = true;
+			} elseif ( $component == 'hidden' ) {
+				$this->f->mIsHidden = true;
+			} elseif ( $component == 'restricted' ) {
+				$this->f->mIsRestricted = ( !$this->mockUser || !$this->mockUser->isAllowed( 'editrestrictedfields' ) );
+			} elseif ( $component == 'list' ) {
+				$this->f->mIsList = true;
+			} elseif ( $component == 'unique' ) {
+				$this->f->mFieldArgs['unique'] = true;
+			} elseif ( $component == 'edittools' ) {
+				$this->f->mFieldArgs['edittools'] = true;
+			}
+
+			$sub_components = array_map( 'trim', explode( '=', $component, 2 ) );
+
+			if ( count( $sub_components ) == 2 ) {
+				if ( $sub_components[0] == 'autocapitalize' ) {
+					$this->f->mAutocapitalize = strtolower( $sub_components[1] );
+				} elseif ( $sub_components[0] == 'default filename' ) {
+					$titleGlobal = RequestContext::getMain()->getTitle();
+					$page_name = $titleGlobal->getText();
+					$default_filename = str_replace( '<page name>', $page_name, $sub_components[1] );
+					$this->f->mFieldArgs['default filename'] = $default_filename;
+				} elseif ( $sub_components[0] == 'show on select' ) {
+					$vals = explode( ';', html_entity_decode( $sub_components[1] ) );
+					foreach ( $vals as $val ) {
+						$val = trim( $val );
+						if ( empty( $val ) ) {
+							continue;
+						}
+						$option_div_pair = explode( '=>', $val, 2 );
+						if ( count( $option_div_pair ) > 1 ) {
+							$option = $option_div_pair[0];
+							$div_id = $option_div_pair[1];
+							$show_on_select[$div_id][] = $option;
+						}
+					}
+				}
+			}
 		}
 	}
 }
