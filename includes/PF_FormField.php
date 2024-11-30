@@ -128,6 +128,10 @@ class PFFormField {
 		$this->mIsHidden = $isHidden;
 	}
 
+	public function getAutocapitalize() {
+		return $this->mAutocapitalize;
+	}
+
 	public function isRestricted() {
 		return $this->mIsRestricted;
 	}

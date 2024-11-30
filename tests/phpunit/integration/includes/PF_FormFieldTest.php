@@ -166,103 +166,149 @@ class PFFormFieldTest extends TestCase {
 	}
 
 	public function testMandatoryComponent() {
-		$tag_components = [ '', '', 'mandatory' ];
+		$tag_components = [ '', 'test_field', 'mandatory' ];
 
-		$this->processComponents( $tag_components );
+		// Call the method
+		$formField = PFFormField::newFromFormFieldTag(
+			$tag_components,
+			$this->mockTemplate,
+			$this->mockTemplateInForm,
+			false,
+			$this->mockUser
+		);
 
-		$this->assertTrue( $this->f->mIsMandatory );
+		$this->assertTrue( $formField->isMandatory() );
 	}
 
 	public function testHiddenComponent() {
 		$tag_components = [ '', '', 'hidden' ];
 
-		$this->processComponents( $tag_components );
+		// Call the method
+		$formField = PFFormField::newFromFormFieldTag(
+			$tag_components,
+			$this->mockTemplate,
+			$this->mockTemplateInForm,
+			false,
+			$this->mockUser
+		);
 
-		$this->assertTrue( $this->f->mIsHidden );
+		$this->assertTrue( $formField->isHidden() );
 	}
 
 	public function testRestrictedComponent() {
 		$tag_components = [ '', '', 'restricted' ];
 
-		$this->processComponents( $tag_components );
+		// Call the method
+		$formField = PFFormField::newFromFormFieldTag(
+			$tag_components,
+			$this->mockTemplate,
+			$this->mockTemplateInForm,
+			false,
+			$this->mockUser
+		);
 
-		$this->assertTrue( $this->f->mIsRestricted );
+		$this->assertTrue( $formField->isRestricted() );
 	}
 
 	public function testKeyValueComponent() {
 		$tag_components = [ '', '', 'autocapitalize=uppercase' ];
 
-		$this->processComponents( $tag_components );
+		// Call the method
+		$formField = PFFormField::newFromFormFieldTag(
+			$tag_components,
+			$this->mockTemplate,
+			$this->mockTemplateInForm,
+			false,
+			$this->mockUser
+		);
 
-		$this->assertEquals( 'uppercase', $this->f->mAutocapitalize );
+		$this->assertEquals( 'uppercase', $formField->getAutocapitalize() );
 	}
 
-	public function testDefaultFilenameComponent() {
-		$tag_components = [ '', '', 'default filename=example_<page name>.txt' ];
-		$mockTitle = $this->createMock( Title::class );
-		$mockTitle->method( 'getText' )->willReturn( 'SamplePage' );
-		$mockTitle->method( 'isSpecialPage' )->willReturn( false );
-		$mockContext = RequestContext::getMain();
-		$mockContext->setTitle( $mockTitle );
+	public function testPropertyComponent() {
+		$tag_components = [ '', 'test_field', 'property=TestProperty' ];
 
-		$this->processComponents( $tag_components );
+		// Call the method
+		$formField = PFFormField::newFromFormFieldTag(
+			$tag_components,
+			$this->mockTemplate,
+			$this->mockTemplateInForm,
+			false,
+			$this->mockUser
+		);
 
-		$this->assertEquals( 'example_SamplePage.txt', $this->f->mFieldArgs['default filename'] );
+		$this->assertEquals( 'TestProperty', $formField->getFieldArgs()['property'], 'The property should be set correctly' );
 	}
 
-	protected function processComponents( $tag_components ) {
-		global $wgPageFormsDependentFields;
+	public function testUniqueComponent() {
+		$tag_components = [ '', '', 'unique' ];
 
-		$wgPageFormsDependentFields = [];
-		$show_on_select = [];
-		$values = null;
-		$valuesSource = null;
-		$valuesSourceType = null;
+		// Call the method
+		$formField = PFFormField::newFromFormFieldTag(
+			$tag_components,
+			$this->mockTemplate,
+			$this->mockTemplateInForm,
+			false,
+			$this->mockUser
+		);
 
-		// Place the code being tested here, or call the relevant method
-		for ( $i = 2; $i < count( $tag_components ); $i++ ) {
-			$component = trim( $tag_components[$i] );
+		$this->assertTrue( $formField->getFieldArgs()['unique'] );
+	}
 
-			if ( $component == 'mandatory' ) {
-				$this->f->mIsMandatory = true;
-			} elseif ( $component == 'hidden' ) {
-				$this->f->mIsHidden = true;
-			} elseif ( $component == 'restricted' ) {
-				$this->f->mIsRestricted = ( !$this->mockUser || !$this->mockUser->isAllowed( 'editrestrictedfields' ) );
-			} elseif ( $component == 'list' ) {
-				$this->f->mIsList = true;
-			} elseif ( $component == 'unique' ) {
-				$this->f->mFieldArgs['unique'] = true;
-			} elseif ( $component == 'edittools' ) {
-				$this->f->mFieldArgs['edittools'] = true;
-			}
+	public function testLabelComponent() {
+		$tag_components = [ '', '', 'label=TestField' ];
 
-			$sub_components = array_map( 'trim', explode( '=', $component, 2 ) );
+		// Call the method
+		$formField = PFFormField::newFromFormFieldTag(
+			$tag_components,
+			$this->mockTemplate,
+			$this->mockTemplateInForm,
+			false,
+			$this->mockUser
+		);
 
-			if ( count( $sub_components ) == 2 ) {
-				if ( $sub_components[0] == 'autocapitalize' ) {
-					$this->f->mAutocapitalize = strtolower( $sub_components[1] );
-				} elseif ( $sub_components[0] == 'default filename' ) {
-					$titleGlobal = RequestContext::getMain()->getTitle();
-					$page_name = $titleGlobal->getText();
-					$default_filename = str_replace( '<page name>', $page_name, $sub_components[1] );
-					$this->f->mFieldArgs['default filename'] = $default_filename;
-				} elseif ( $sub_components[0] == 'show on select' ) {
-					$vals = explode( ';', html_entity_decode( $sub_components[1] ) );
-					foreach ( $vals as $val ) {
-						$val = trim( $val );
-						if ( empty( $val ) ) {
-							continue;
-						}
-						$option_div_pair = explode( '=>', $val, 2 );
-						if ( count( $option_div_pair ) > 1 ) {
-							$option = $option_div_pair[0];
-							$div_id = $option_div_pair[1];
-							$show_on_select[$div_id][] = $option;
-						}
-					}
-				}
-			}
+		$this->assertEquals( 'TestField', $formField->getLabel() );
+	}
+
+	public function testMappingTypeWithMappingTemplate() {
+		$mappingType = null;
+		$tag_components = [ '', '', 'mapping template' ];
+
+		// Call the method
+		$formField = PFFormField::newFromFormFieldTag(
+			$tag_components,
+			$this->mockTemplate,
+			$this->mockTemplateInForm,
+			false,
+			$this->mockUser
+		);
+
+		$this->assertTrue( $formField->getFieldArgs()['mapping template'] );
+
+		if ( $formField->getFieldArgs()['mapping template'] != null ) {
+			$mappingType = 'template';
+			$this->assertSame( 'template', $mappingType );
+		}
+	}
+
+	public function testMappingTypeWithMappingProperty() {
+		$mappingType = null;
+		$tag_components = [ '', '', 'mapping property' ];
+
+		// Call the method
+		$formField = PFFormField::newFromFormFieldTag(
+			$tag_components,
+			$this->mockTemplate,
+			$this->mockTemplateInForm,
+			false,
+			$this->mockUser
+		);
+
+		$this->assertTrue( $formField->getFieldArgs()['mapping property'] );
+
+		if ( $formField->getFieldArgs()['mapping property'] != null ) {
+			$mappingType = 'property';
+			$this->assertSame( 'property', $mappingType );
 		}
 	}
 }
