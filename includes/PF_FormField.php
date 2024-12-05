@@ -144,6 +144,10 @@ class PFFormField {
 		return $this->mHoldsTemplate;
 	}
 
+	public function setHoldsTemplate( $val ) {
+		$this->mHoldsTemplate = $val;
+	}
+
 	public function isList() {
 		return $this->mIsList;
 	}
@@ -156,12 +160,20 @@ class PFFormField {
 		}
 	}
 
+	public function setPossibleValues( $possibleValues ) {
+		$this->mPossibleValues = $possibleValues;
+	}
+
 	public function getUseDisplayTitle() {
 		return $this->mUseDisplayTitle;
 	}
 
 	public function getInputName() {
 		return $this->mInputName;
+	}
+
+	public function setInputName( $val ) {
+		$this->mInputName = $val;
 	}
 
 	public function getLabel() {
@@ -174,6 +186,10 @@ class PFFormField {
 
 	public function isDisabled() {
 		return $this->mIsDisabled;
+	}
+
+	public function setIsDisabled( $val ) {
+		$this->mIsDisabled = $val;
 	}
 
 	public function setDescriptionArg( $key, $value ) {

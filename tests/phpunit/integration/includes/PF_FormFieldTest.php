@@ -311,4 +311,107 @@ class PFFormFieldTest extends TestCase {
 			$this->assertSame( 'property', $mappingType );
 		}
 	}
+
+	public function testSetMappedValuesTemplate() {
+		// Create the PFFormField object
+		$formField = PFFormField::create( $this->mockTemplateField );
+
+		// Set the mapping type to 'template'
+		$formField->setFieldArg( 'mapping template', 'TestTemplate' );
+		$formField->setPossibleValues( [ 'val1' => 'val1', 'val2' => 'val2' ] );
+
+		// Call the method under test
+		$formField->setMappedValues( 'template' );
+
+		// Assertions to ensure correct method calls
+		$this->assertEquals( [
+			'val1' => 'val1',
+			'val2' => 'val2'
+		], $formField->getPossibleValues() );
+	}
+
+	public function testSetMappedValuesProperty() {
+		// Create the PFFormField object
+		$formField = PFFormField::create( $this->mockTemplateField );
+
+		// Set the mapping type to 'property'
+		$formField->setFieldArg( 'mapping property', 'TestProp' );
+		$formField->setPossibleValues( [ 'val1' => 'val1', 'val2' => 'val2' ] );
+
+		// Call the method under test
+		$formField->setMappedValues( 'property' );
+
+		// Assertions to ensure correct method calls
+		$this->assertEquals( [
+			'val1' => 'val1',
+			'val2' => 'val2'
+		], $formField->getPossibleValues() );
+	}
+
+	public function testValueStringToLabels() {
+		// Create the PFFormField object
+		$formField = PFFormField::create( $this->mockTemplateField );
+		$formField->setPossibleValues( [ 'val1' => 'Label 1', 'val2' => 'Label 2' ] );
+
+		// Empty string
+		$result = $formField->valueStringToLabels( '', ',' );
+		$this->assertSame( '', $result );
+
+		// String with only spaces
+		$result = $formField->valueStringToLabels( '    ', ',' );
+		$this->assertEquals( '    ', $result );
+
+		// Test case 2: Null valueString
+		$result = $formField->valueStringToLabels( null, ',' );
+		$this->assertNull( $result );
+
+		// Test case 3: Value exists in mPossibleValues
+		$result = $formField->valueStringToLabels( 'val1', ',' );
+		$this->assertEquals( 'Label 1', $result );
+
+		// Test case 4: Value does not exist in mPossibleValues
+		$result = $formField->valueStringToLabels( 'val3', ',' );
+		$this->assertEquals( 'val3', $result );
+
+		// Test case 5: Multiple values, some exist in mPossibleValues, others do not
+		$result = $formField->valueStringToLabels( 'val1,val3', ',' );
+		$this->assertEquals( [ 'Label 1', 'val3' ], $result );
+
+		// Test case 6: Delimiter is null
+		$result = $formField->valueStringToLabels( 'val1,val2', null );
+		$this->assertEquals( 'val1,val2', $result );
+
+		// Test case 7: Multiple labels and values exist
+		$result = $formField->valueStringToLabels( 'val1,val2', ',' );
+		$this->assertEquals( [ 'Label 1', 'Label 2' ], $result );
+	}
+
+	public function testAdditionalHTMLForInput() {
+		// Create the PFFormField object
+		$field = PFFormField::create( $this->mockTemplateField );
+
+		// Mock values for $field
+		$field->setHoldsTemplate( true );
+		$field->setIsDisabled( true );
+		$field->setInputName( 'input_field' );
+		$field->setFieldArg( 'delimiter', ',' );
+		$field->setFieldArg( 'mapping template', 'template_name' );
+		$field->setFieldArg( 'unique', true );
+		$field->setFieldArg( 'unique_for_category', 'Category1' );
+		$field->setFieldArg( 'unique_for_namespace', 'Namespace1' );
+
+		// Call the method to test
+		$cur_value = 'some_value';
+		$field_name = 'some_field';
+		$template_name = 'template_example';
+		$result = $field->additionalHTMLForInput( $cur_value, $field_name, $template_name );
+
+		// Assertions for template-related hidden fields
+		$this->assertStringContainsString( 'type="hidden" value="true" name="template_example[map_field][some_field]"', $result );
+		$this->assertStringContainsString( 'type="hidden" value="some_value" name="input_field"', $result );
+
+		// Assertions for unique-related hidden fields
+		$this->assertStringContainsString( 'type="hidden" value="Category1" name="input__unique_for_category"', $result );
+		$this->assertStringContainsString( 'type="hidden" value="Namespace1" name="input__unique_for_namespace"', $result );
+	}
 }
