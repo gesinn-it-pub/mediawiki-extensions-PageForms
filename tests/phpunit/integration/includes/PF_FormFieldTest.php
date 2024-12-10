@@ -487,4 +487,85 @@ class PFFormFieldTest extends TestCase {
 		$resultPrepend = $field->getCurrentValue( $template_instance_query_values, true, false, true );
 		$this->assertEquals( 'PrependedValue', $resultPrepend, 'Prepended value should be handled correctly' );
 	}
+
+	public function testCreateMarkup() {
+		// Mock the template field
+		$this->mockTemplateField->method( 'getLabel' )->willReturn( 'Mock Label' );
+		$this->mockTemplateField->method( 'getFieldName' )->willReturn( 'MockFieldName' );
+
+		// Create the PFFormField object
+		$field = PFFormField::create( $this->mockTemplateField );
+
+		// Set up the field arguments
+		$field->setDescriptionArg( 'Description', 'This is a field description.' );
+		$field->setDescriptionArg( 'TextBeforeField', 'Before Field Text' );
+		$field->setFieldArg( 'size', 50 );
+		$field->setFieldArg( 'maxlength', 100 );
+		$field->setFieldArg( 'uploadable', true );
+		$field->setIsHidden( false );
+		$field->setIsMandatory( true );
+		$field->setIsRestricted( false );
+
+		// Test case: Part of a multiple-instance template
+		$partOfMultiple = true;
+		$isLastField = false;
+		$output = $field->createMarkup( $partOfMultiple, $isLastField );
+
+		$expectedOutput = "'''Before Field Text Mock Label:''' <br><p class=\"pfFieldDescription\" style=\"font-size:0.7em; color:gray;\">This is a field description.</p>{{{field|MockFieldName|size=50|maxlength=100|uploadable|mandatory}}}\n\n";
+
+		$this->assertEquals( $expectedOutput, $output, 'Markup for multiple-instance template is incorrect' );
+
+		// Test case: Single-instance template, not the last field
+		$partOfMultiple = false;
+		$isLastField = false;
+		$output = $field->createMarkup( $partOfMultiple, $isLastField );
+
+		$expectedOutput = "! Before Field Text Mock Label: <br><p class=\"pfFieldDescription\" style=\"font-size:0.7em; color:gray;\">This is a field description.</p>\n" .
+				  "| {{{field|MockFieldName|size=50|maxlength=100|uploadable|mandatory}}}\n" .
+				  "|-\n";
+		$this->assertEquals( $expectedOutput, $output, 'Markup for single-instance template (not last field) is incorrect' );
+
+		// Test case: Single-instance template, last field
+		$isLastField = true;
+		$output = $field->createMarkup( $partOfMultiple, $isLastField );
+
+		$expectedOutput = "! Before Field Text Mock Label: <br><p class=\"pfFieldDescription\" style=\"font-size:0.7em; color:gray;\">This is a field description.</p>\n" .
+				  "| {{{field|MockFieldName|size=50|maxlength=100|uploadable|mandatory}}}\n";
+
+		$this->assertEquals( $expectedOutput, $output, 'Markup for single-instance template (last field) is incorrect' );
+	}
+
+	public function testCreateMarkupWithSMW() {
+		// Mock the template field
+		$this->mockTemplateField->method( 'getLabel' )->willReturn( 'Mock Label' );
+		$this->mockTemplateField->method( 'getFieldName' )->willReturn( 'MockFieldName' );
+
+		// Create the PFFormField object
+		$field = PFFormField::create( $this->mockTemplateField );
+
+		// Set up the mock description and tooltip mode
+		$fieldDesc = 'This is a field description.';
+		$field->setDescriptionArg( 'Description', $fieldDesc );
+		$field->setDescriptionArg( 'DescriptionTooltipMode', true );
+		$field->setFieldArg( 'size', 50 );
+		$field->setFieldArg( 'maxlength', 100 );
+		$field->setFieldArg( 'uploadable', true );
+		$field->setIsHidden( false );
+		$field->setIsMandatory( true );
+		$field->setIsRestricted( false );
+
+		// Call the createMarkup method
+		$partOfMultiple = true;
+		$isLastField = false;
+		$output = $field->createMarkup( $partOfMultiple, $isLastField );
+
+		// Expected output without extra newline
+		$expectedOutput = "'''Mock Label:'''  {{#info:This is a field description.}}{{{field|MockFieldName|size=50|maxlength=100|uploadable|mandatory}}}";
+
+		// Trim the trailing newline from actual output before comparison
+		$output = rtrim( $output, "\n" );
+
+		// Assert that the output matches the expected result
+		$this->assertEquals( $expectedOutput, $output, 'Markup for Semantic MediaWiki tooltip is incorrect' );
+	}
 }
