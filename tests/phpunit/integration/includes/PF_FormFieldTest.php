@@ -414,4 +414,77 @@ class PFFormFieldTest extends TestCase {
 		$this->assertStringContainsString( 'type="hidden" value="Category1" name="input__unique_for_category"', $result );
 		$this->assertStringContainsString( 'type="hidden" value="Namespace1" name="input__unique_for_namespace"', $result );
 	}
+
+	public function testGetCurrentValue() {
+		// Mock TemplateField
+		$this->mockTemplateField->method( 'getFieldName' )->willReturn( 'TestField' );
+		$this->mockTemplateField->mFieldName = 'TestField';
+
+		// Create the PFFormField object
+		$field = PFFormField::create( $this->mockTemplateField );
+		$field->setFieldArg( 'delimiter', ',' );
+		$field->setFieldArg( 'translatable', true );
+
+		// Mock TemplateInForm
+		$this->mockTemplateInForm->method( 'getTemplateName' )->willReturn( 'TestTemplate' );
+
+		// Simulate values from query
+		$values_from_query = [
+			'TestField' => 'value1,value2'
+		];
+
+		// Call getCurrentValue()
+		$val_modifier = null;
+		$result = $field->getCurrentValue( $values_from_query, true, false, true, $val_modifier );
+
+		// Assertions
+		$this->assertEquals( 'value1,value2', $result, 'Concatenated values should match expected result.' );
+	}
+
+	public function testGetCurrentValue_WithAppending() {
+		// Mock TemplateField
+		$this->mockTemplateField->method( 'getFieldName' )->willReturn( 'TestField' );
+		$this->mockTemplateField->mFieldName = 'TestField';
+
+		// Create the PFFormField object
+		$field = PFFormField::create( $this->mockTemplateField );
+		$field->setFieldArg( 'delimiter', ',' );
+		$field->setFieldArg( 'translatable', true );
+
+		// Mock TemplateInForm
+		$this->mockTemplateInForm->method( 'getTemplateName' )->willReturn( 'TestTemplate' );
+
+		// Define test cases for appending
+		$template_instance_query_values = [
+			'TestField+' => 'AppendedValue'
+		];
+
+		// Appending scenario
+		$resultAppend = $field->getCurrentValue( $template_instance_query_values, true, false, true );
+		$this->assertEquals( 'AppendedValue', $resultAppend, 'Appended value should be handled correctly' );
+	}
+
+	public function testGetCurrentValue_WithPrepending() {
+		// Mock TemplateField
+		$this->mockTemplateField->method( 'getFieldName' )->willReturn( 'TestField' );
+		$this->mockTemplateField->mFieldName = 'TestField';
+
+		// Create the PFFormField object
+		$field = PFFormField::create( $this->mockTemplateField );
+		$field->setFieldArg( 'delimiter', ',' );
+		$field->setFieldArg( 'translatable', true );
+
+		// Mock TemplateInForm
+		$this->mockTemplateInForm->method( 'getTemplateName' )->willReturn( 'TestTemplate' );
+
+		// Define test cases for prepending
+		$template_instance_query_values = [
+			'TestField-' => 'PrependedValue'
+		];
+
+		// Prepending scenario
+		$field->setFieldArg( 'field_name', 'TestField-' );
+		$resultPrepend = $field->getCurrentValue( $template_instance_query_values, true, false, true );
+		$this->assertEquals( 'PrependedValue', $resultPrepend, 'Prepended value should be handled correctly' );
+	}
 }
