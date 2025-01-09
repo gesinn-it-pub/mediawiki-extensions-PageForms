@@ -112,7 +112,9 @@ class PFTemplateInFormTest extends TestCase {
 		$template = new PFTemplateInForm();
 		$template->setTemplateName( 'My Template' );
 		$template->setAllowsMultiple( true );
-		$template->setInstanceNum( 1 );
+		if ( version_compare( MW_VERSION, '1.35', '>' ) ) {
+			$template->setInstanceNum( 1 );
+		}
 
 		$template->setFieldValuesFromSubmit();
 
