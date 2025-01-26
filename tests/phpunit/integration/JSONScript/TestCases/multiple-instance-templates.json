@@ -1,0 +1,96 @@
+{
+	"description": "Test multiple input with minimum and maximum instances",
+	"setup": [
+		{
+			"namespace": "SMW_NS_PROPERTY",
+			"page": "Text Property",
+			"contents": "[[Has type::Text]]"
+		},
+		{
+			"namespace": "PF_NS_FORM",
+			"page": "Test Multiple Instances with equal min and max",
+			"contents": "{{{for template|Test Multiple Instances with equal min and max|multiple|minimum instances=4|maximum instances=4}}}"
+		},
+        {
+			"namespace": "PF_NS_FORM",
+			"page": "Test Multiple Instances with min and max equal to 1",
+			"contents": "{{{for template|Test Multiple Instances with min and max equal to 1|multiple|minimum instances=1|maximum instances=1}}}"
+		},
+        {
+			"namespace": "PF_NS_FORM",
+			"page": "Test Multiple Instances with min is 0 and max is undefined",
+			"contents": "{{{for template|Test Multiple Instances with min is 0 and max is undefined|multiple|minimum instances=0}}}"
+		}
+	],
+	"tests": [
+		{
+			"type": "special",
+			"about": "Validate that exactly 4 instances are rendered",
+			"special-page": {
+				"page": "FormEdit",
+				"query-parameters": "Test Multiple Instances with equal min and max/01",
+				"request-parameters": {}
+			},
+			"assert-output": {
+				"to-contain": [
+					"<div class=\"multipleTemplateList\" minimuminstances=\"4\" maximuminstances=\"4\">",
+					"<div class=\"multipleTemplateInstance multipleTemplate\">",
+					"<table class=\"multipleTemplateInstanceTable\">",
+                    "<div class=\"multipleTemplateInstance multipleTemplate\">",
+					"<table class=\"multipleTemplateInstanceTable\">",
+                    "<div class=\"multipleTemplateInstance multipleTemplate\">",
+					"<table class=\"multipleTemplateInstanceTable\">",
+                    "<div class=\"multipleTemplateInstance multipleTemplate\">",
+					"<table class=\"multipleTemplateInstanceTable\">"
+				]
+			}
+		},
+        {
+			"type": "special",
+			"about": "Validate that exactly 1 instance is rendered",
+			"special-page": {
+				"page": "FormEdit",
+				"query-parameters": "Test Multiple Instances with min and max equal to 1/01",
+				"request-parameters": {}
+			},
+			"assert-output": {
+				"to-contain": [
+					"<div class=\"multipleTemplateList\" minimuminstances=\"1\" maximuminstances=\"1\">",
+                    "<div class=\"multipleTemplateInstance multipleTemplate\">",
+					"<table class=\"multipleTemplateInstanceTable\">"
+				]
+			}
+		},
+        {
+			"type": "special",
+			"about": "Validate that min is 0 and 0 is rendered with the button to add one",
+			"special-page": {
+				"page": "FormEdit",
+				"query-parameters": "Test Multiple Instances with min is 0 and max is undefined/01",
+				"request-parameters": {}
+			},
+			"assert-output": {
+				"to-contain": [
+					"<div class=\"multipleTemplateList\" minimuminstances=\"0\">",
+					"<div class=\"multipleTemplateStarter\" style=\"display: none\">",
+					"<table class=\"multipleTemplateInstanceTable\">",
+					"<td class=\"instanceRearranger\"></td>",
+					"<td class=\"instanceMain\">",
+					"</p></div></td>",
+					"<td class=\"instanceAddAbove\"><a class=\"addAboveButton\" title=\"Add another instance above this one\"></a></td>",
+					"<td class=\"instanceRemove\"><a class=\"removeButton\" title=\"Remove this instance\"></a></td>",
+					"</table></div>",
+					"</div><!-- multipleTemplateList -->"
+				]
+			}
+		}
+	],
+	"settings": {
+		"wgLang": "en"
+	},
+	"meta": {
+		"version": "2",
+		"is-incomplete": false,
+		"debug": false
+	}
+}
