@@ -16,15 +16,17 @@
 	 */
 	function inputFor($sibling) {
 		const $parent = $sibling.parent();
-		const $input = $parent.find('#' + $sibling.data('input-id'));
+		let $input = $parent.find('#' + $sibling.data('input-id'));
 		if ($input.length === 0) {
 			$input = $parent.find('[data-origid="' + $sibling.data('input-id') + '"]');
 		}
 
 		if ($input.length === 0) {
-			console.warn('No input found for sibling', $sibling);
 			return {
-				addFile: function() { console.warn('Cannot add file, input not found'); }
+				addFile: function() {
+					// eslint-disable-next-line no-console
+					console.warn('Cannot add file, input not found');
+				}
 			};
 		}
 
