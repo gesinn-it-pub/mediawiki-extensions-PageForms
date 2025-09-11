@@ -17,6 +17,17 @@
 	function inputFor($sibling) {
 		const $parent = $sibling.parent();
 		const $input = $parent.find('#' + $sibling.data('input-id'));
+		if ($input.length === 0) {
+			$input = $parent.find('[data-origid="' + $sibling.data('input-id') + '"]');
+		}
+
+		if ($input.length === 0) {
+			console.warn('No input found for sibling', $sibling);
+			return {
+				addFile: function() { console.warn('Cannot add file, input not found'); }
+			};
+		}
+
 		const isTokenInput = $input.hasClass('pfTokens');
 
 		const input = isTokenInput
@@ -27,6 +38,7 @@
 				addFile: function(filename) {
 					$input.append('<option value="' + filename + '">' + filename + '</option>');
 					$input.val([ ...getFilenames(), filename ]);
+					// refresh Select2 tokens
 					(new pf.select2.tokens()).refresh($input);
 				}
 			}
