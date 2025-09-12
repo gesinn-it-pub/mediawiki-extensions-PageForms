@@ -35,8 +35,8 @@ jobs:
             database_image: "mysql:8"
             coverage: false
             experimental: false
-          - mediawiki_version: '1.40'
-            smw_version: dev-master
+          - mediawiki_version: '1.39'
+            smw_version: '5.1.0'
             php_version: 8.1
             dt_version: 4.0.3
             ps_version: 0.9.1
@@ -44,15 +44,15 @@ jobs:
             database_image: "mysql:8"
             coverage: false
             experimental: false
-          - mediawiki_version: '1.41'
-            smw_version: dev-master
-            php_version: 8.1
-            dt_version: 4.0.3
-            ps_version: 0.9.1
-            database_type: mysql
-            database_image: "mysql:8"
-            coverage: false
-            experimental: false
+          # - mediawiki_version: '1.43'
+          #   smw_version: '6.0.1'
+          #   php_version: 8.3
+          #   dt_version: 4.0.3
+          #   ps_version: 0.9.1
+          #   database_type: mysql
+          #   database_image: "mysql:8"
+          #   coverage: false
+          #   experimental: false
 
     env:
       MW_VERSION: ${{ matrix.mediawiki_version }}
