@@ -19,7 +19,7 @@ DB_IMAGE?="mysql:8"
 # extensions
 SMW_VERSION?=4.2.0
 DT_VERSION?=4.0.3
-PS_VERSION?=1.0
+PS_VERSION?=0.9.1
 
 # composer
 # Enables "composer update" inside of extension
