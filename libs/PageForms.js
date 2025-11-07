@@ -431,6 +431,29 @@ $.fn.isAtMaxInstances = function() {
 	return false;
 };
 
+// check the value of min and max value and add or remove the instances
+$.fn.handleMultipleInstances = function() {
+	var minimumInstances = this.attr("minimumInstances");
+	var maximumInstances = this.attr("maximumInstances");
+
+	if ( (minimumInstances > 0 && maximumInstances > 0) && ( minimumInstances === maximumInstances ) ) {
+		$(this).addInstance( true );
+		$('.multipleTemplateAdder').hide();
+		$('.errorMessage').hide();
+	} else if ((typeof maximumInstances === "undefined" || maximumInstances === null) || (typeof minimumInstances === "undefined" || minimumInstances === null)) {
+		$('.multipleTemplateAdder').click( function() {
+			$(this).addInstance( false );
+		});
+	} else if ( (minimumInstances !== maximumInstances) && (minimumInstances < maximumInstances) ) {
+		$('.multipleTemplateAdder').click( function() {
+			$(this).addInstance( false );
+		});
+	} else {
+		$('.multipleTemplateAdder').hide();
+		$('.multipleTemplateList').hide();
+	}
+}
+
 $.fn.validateNumInstances = function() {
 	var minimumInstances = this.attr("minimumInstances");
 	var maximumInstances = this.attr("maximumInstances");
@@ -1887,9 +1910,9 @@ $(document).ready( function() {
 		$('.multipleTemplateInstance').each( function() {
 				$(this).initializeJSElements(true);
 		});
-		$('.multipleTemplateAdder').click( function() {
-			$(this).addInstance( false );
-		});
+
+		$('.multipleTemplateList').handleMultipleInstances();
+
 		var wgPageFormsHeightForMinimizingInstances = mw.config.get( 'wgPageFormsHeightForMinimizingInstances' );
 		if ( wgPageFormsHeightForMinimizingInstances >= 0) {
 			$('.multipleTemplateList').each( function() {
